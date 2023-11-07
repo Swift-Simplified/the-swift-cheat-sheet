@@ -17,66 +17,53 @@
 //: ## Topic 4: Collection Types
 //:
 //:
-//: Swift provides three primary collection types, known as arrays, sets, and dictionaries, for storing collections of values. Arrays are ordered collections of values. Sets are unordered collections of unique values. Dictionaries are unordered collections of key-value associations.
+//: Swift provides three primary collection types; arrays, sets, and dictionaries.
 //:
 //: ![Diagram](CollectionTypes_intro_2x.png)
-//: Arrays, sets, and dictionaries in Swift are always clear about the types of values and keys that they can store. This means that you can’t insert a value of the wrong type into a collection by mistake. It also means you can be confident about the type of values you will retrieve from a collection.
-//:
-//: * callout(Note):
-//:     → Swift’s array, set, and dictionary types are implemented as generic collections. For more about generic types and collections, see Generics.
 //:
 //: -------------------
 //:
 //: ## Mutability of Collections
 //:
-//: If you create an array, a set, or a dictionary, and assign it to a variable, the collection that’s created will be mutable. This means that you can change (or mutate) the collection after it’s created by adding, removing, or changing items in the collection. If you assign an array, a set, or a dictionary to a constant, that collection is immutable, and its size and contents can’t be changed.
-//:
-//: * callout(Note):
-//:     → It’s good practice to create immutable collections in all cases where the collection doesn’t need to change. Doing so makes it easier for you to reason about your code and enables the Swift compiler to optimize the performance of the collections you create.
+//: Use `var` to use a mutable collection:
+var mutableArray = [0,1,2,3]
+mutableArray.append(4)
+let immutableArray = [0,1,2,3,4]
+// << 🔵 Run Point
 //:
 //: -------------------
 //:
 //: ## Arrays
 //:
-//: An array stores values of the same type in an ordered list. The same value can appear in an array multiple times at different positions.
-//:
-//: * callout(Note):
-//:     → Swift’s `Array` type is bridged to Foundation’s `NSArray` class.
-//:
-//:     For more information about using `Array` with Foundation and Cocoa, see Bridging Between Array and NSArray.
+//: An array stores values of the same type in an ordered list.
 //:
 //: -------------------
 //:
 //: ### Array Type Shorthand Syntax
 //:
-//: The type of a Swift array is written in full as `Array<Element>`, where `Element` is the type of values the array is allowed to store. You can also write the type of an array in shorthand form as `[Element]`. Although the two forms are functionally identical, the shorthand form is preferred and is used throughout this guide when referring to the type of an array.
+//: Use longhand form and shorthand form to declare an array:
+let longHand: Array<Int> = Array<Int>()
+let shortHand = [Int]()
+let shortHand2 = [0,1,2,3,4] // preferred
 //:
 //: -------------------
 //:
 //: ### Creating an Empty Array
 //:
-//: You can create an empty array of a certain type using initializer syntax:
+//: Use `[]` to create an empty array:
 var someInts: [Int] = []
+someInts.append(3)
+// someInts now contains 1 value of type Int
+someInts = []
 print("someInts is of type [Int] with \(someInts.count) items.")
 // Prints "someInts is of type [Int] with 0 items."
 // << 🔵 Run Point
 //:
 //: -------------------
 //:
-//: Note that the type of the `someInts` variable is inferred to be `[Int]` from the type of the initializer.
-//:
-//: Alternatively, if the context already provides type information, such as a function argument or an already typed variable or constant, you can create an empty array with an empty array literal, which is written as `[]` (an empty pair of square brackets):
-someInts.append(3)
-// someInts now contains 1 value of type Int
-someInts = []
-// someInts is now an empty array, but is still of type [Int]
-// << 🔵 Run Point
-//:
-//: -------------------
-//:
 //: ### Creating an Array with a Default Value
 //:
-//: Swift’s `Array` type also provides an initializer for creating an array of a certain size with all of its values set to the same default value. You pass this initializer a default value of the appropriate type (called `repeating`): and the number of times that value is repeated in the new array (called count):
+//: Use an initializer for creating an array with all values set to the same value.
 var threeDoubles = Array(repeating: 0.0, count: 3)
 // threeDoubles is of type [Double], and equals [0.0, 0.0, 0.0]
 // << 🔵 Run Point
@@ -85,7 +72,7 @@ var threeDoubles = Array(repeating: 0.0, count: 3)
 //:
 //: ### Creating an Array by Adding Two Arrays Together
 //:
-//: You can create a new array by adding together two existing arrays with compatible types with the addition operator (`+`). The new array’s type is inferred from the type of the two arrays you add together:
+//: Add together two existing arrays:
 var anotherThreeDoubles = Array(repeating: 2.5, count: 3)
 // anotherThreeDoubles is of type [Double], and equals [2.5, 2.5, 2.5]
 
@@ -97,34 +84,17 @@ var sixDoubles = threeDoubles + anotherThreeDoubles
 //:
 //: ### Creating an Array with an Array Literal
 //:
-//: You can also initialize an array with an array literal, which is a shorthand way to write one or more values as an array collection. An array literal is written as a list of values, separated by commas, surrounded by a pair of square brackets:
-["value1", "value2", "value3"]
+//: You can initialize an array with an array literal:
+let arrayLiteral = ["value1", "value2", "value3"] // array literal
 // << 🔵 Run Point
 //:
 //: -------------------
 //:
-//: The example below creates an array called `shoppingList` to store `String` values:
-
-var shoppingList: [String] = ["Eggs", "Milk"]
-// shoppingList has been initialized with two initial items
+//: Use an array literal to set the type:
+let shoppingList: [String] = ["Eggs", "Milk"]
+let shoppingList2 = ["Eggs", "Milk"] // declared as [String]
+// shoppingList2 is declared using type inference
 // << 🔵 Run Point
-//:
-//: -------------------
-//:
-//: The `shoppingList` variable is declared as “an array of string values”, written as `[String]`. Because this particular array has specified a value type of `String`, it’s allowed to store `String` values only. Here, the `shoppingList` array is initialized with two `String` values (`"Eggs"` and `"Milk"`), written within an array literal.
-//:
-//: * callout(Note):
-//:     → The `shoppingList` array is declared as a variable (with the `var` introducer) and not a constant (with the `let` introducer) because more items are added to the shopping list in the examples below.
-//:
-//: In this case, the array literal contains two `String` values and nothing else. This matches the type of the `shoppingList` variable’s declaration (an array that can only contain `String` values), and so the assignment of the array literal is permitted as a way to initialize shoppingList with two initial items.
-//:
-//: Thanks to Swift’s type inference, you don’t have to write the type of the array if you’re initializing it with an array literal containing values of the same type. The initialization of `shoppingList` could have been written in a shorter form instead:
-shoppingList = ["Eggs", "Milk"]
-// << 🔵 Run Point
-//:
-//: -------------------
-//:
-//: Because all values in the array literal are of the same type, Swift can infer that `[String]` is the correct type to use for the `shoppingList` variable.
 //:
 //: -------------------
 //:
