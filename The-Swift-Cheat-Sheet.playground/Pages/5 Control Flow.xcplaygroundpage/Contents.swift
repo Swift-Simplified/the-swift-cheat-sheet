@@ -5,7 +5,7 @@
 //: [Swift.org](https://www.swift.org) | [SwiftSimplified.com](https://www.swiftsimplified.com) | [Online Swift Course](https://www.swiftsimplified.com/the-swift-handbook) | [Swift Language Guide](https://www.swiftsimplified.com/the-swift-language-guide)
 //:
 //: -------------------
-//: ## The  Swift Cheat Sheet 😁
+//: ## The  Swift Cheat Sheet ⚡️
 //: This is the [official Apple Swift Language Guide](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/thebasics) converted into Xcode playground pages and further condensed into smaller sections referencing each language feature in an easy-to-use reference guide. Each published topic is now an editable and executable Xcode playground complete with executable code examples per language feature.
 //:
 //: v1 | Swift v5.7+ | Xcode 14+ | [The Original Guide](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/thebasics)
