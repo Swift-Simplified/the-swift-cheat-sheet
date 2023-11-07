@@ -23,6 +23,10 @@
 //:
 //: ## For-In Loops
 //:
+//: Repeating code in a loop.
+//:
+//: -------------------
+//:
 //: An array:
 let names = ["Anna", "Alex", "Brian", "Jack"]
 for name in names {
@@ -111,10 +115,10 @@ for tickMark in stride(from: 3, through: hours, by: hourInterval) {
 //: ### While
 //:
 //: A `while` loop evaluates its condition at the start of each pass through the loop.
-/*:
-     while condition {
-        statements
-     }
+/*
+ while condition {
+    statements
+ }
 */
 //: -------------------
 //:
@@ -191,6 +195,10 @@ print("Game over!")
 //:
 //: ## Conditional Statements
 //:
+//: Executing code based on a condition.
+//:
+//: -------------------
+//:
 //: ### If
 //: 
 //: Executes if the condition is `true`:
@@ -243,16 +251,16 @@ if temperatureInFahrenheit <= 32 {
 //: ### Switch
 //:
 //: A `switch` statement compares a value against another value.
-/*:
-     switch some value to consider {
-     case value 1:
-         respond to value 1
-     case value 2,
-         value 3:
-         respond to value 2 or 3
-     default:
-         otherwise, do something else
-     }
+/*
+ switch some value to consider {
+ case value 1:
+     respond to value 1
+ case value 2,
+     value 3:
+     respond to value 2 or 3
+ default:
+     otherwise, do something else
+ }
  */
 //:
 //: A character:
@@ -421,6 +429,10 @@ default:
 //:
 //: ## Control Transfer Statements
 //:
+//: Transfering control to alternative lines of code.
+//:
+//: -------------------
+//:
 //: ### Continue
 //:
 //: Stops execution and starts again at the beginning:
@@ -538,24 +550,9 @@ print("Game over!")
 //:
 //: -------------------
 //:
-//: The dice is rolled at the start of each loop. Rather than moving the player immediately, the loop uses a `switch` statement to consider the result of the move and to determine whether the move is allowed:
-//:
-//: * If the dice roll will move the player onto the final square, the game is over. The `break gameLoop` statement transfers control to the first line of code outside of the `while` loop, which ends the game.
-//:
-//: * If the dice roll will move the player beyond the final square, the move is invalid and the player needs to roll again. The `continue gameLoop` statement ends the current `while` loop iteration and begins the next iteration of the loop.
-//:
-//: * In all other cases, the dice roll is a valid move. The player moves forward by `diceRoll` squares, and the game logic checks for any snakes and ladders. The loop then ends, and control returns to the while condition to decide whether another turn is required.
-//:
-//: * callout(Note):
-//:     → If the `break` statement above didn’t use the `gameLoop` label, it would break out of the `switch` statement, not the `while` statement. Using the `gameLoop` label makes it clear which control statement should be terminated.
-//:
-//:     It isn’t strictly necessary to use the `gameLoop` label when calling `continue gameLoop` to jump to the next iteration of the loop. there’s only one loop in the game, and therefore no ambiguity as to which loop the `continue` statement will affect. However, there’s no harm in using the `gameLoop` label with the `continue` statement. Doing so is consistent with the label’s use alongside the `break` statement and helps make the game’s logic clearer to read and understand.
-//:
-//: -------------------
-//:
 //: ## Early Exit
 //:
-//: A `guard` statement, like an `if` statement, executes statements depending on the Boolean value of an expression. You use a `guard` statement to require that a condition must be `true` in order for the code after the `guard` statement to be executed. Unlike an `if` statement, a `guard` statement always has an `else` clause—the code inside the `else` clause is executed if the condition isn’t `true`.
+//: Use a `guard` statement to ensure a condition is `true` for the code that follows it:
 func greet(person: [String: String]) {
     guard let name = person["name"] else {
         return
@@ -581,21 +578,9 @@ greet(person: ["name": "Jane", "location": "Cupertino"])
 //:
 //: -------------------
 //:
-//: If the `guard` statement’s condition is met, code execution continues after the `guard` statement’s closing brace. Any variables or constants that were assigned values using an optional binding as part of the condition are available for the rest of the code block that the `guard` statement appears in.
-//:
-//: If that condition isn’t met, the code inside the `else` branch is executed. That branch must transfer control to exit the code block in which the `guard` statement appears. It can do this with a control transfer statement such as `return`, `break`, `continue`, or `throw`, or it can call a function or method that doesn’t return, such as `fatalError(_:file:line:)`.
-//:
-//: Using a `guard` statement for requirements improves the readability of your code, compared to doing the same check with an `if` statement. It lets you write the code that’s typically executed without wrapping it in an `else` block, and it lets you keep the code that handles a violated requirement next to the requirement.
-//:
-//: -------------------
-//:
 //: ## Checking API Availability
 //:
-//: Swift has built-in support for checking API availability, which ensures that you don’t accidentally use APIs that are unavailable on a given deployment target.
-//:
-//: The compiler uses availability information in the SDK to verify that all of the APIs used in your code are available on the deployment target specified by your project. Swift reports an error at compile time if you try to use an API that isn’t available.
-//:
-//: You use an availability condition in an `if` or `guard` statement to conditionally execute a block of code, depending on whether the APIs you want to use are available at runtime. The compiler uses the information from the availability condition when it verifies that the APIs in that block of code are available.
+//: Use an availability condition in an `if` or `guard` statement:
 
 if #available(iOS 10, macOS 10.12, *) {
     // Use iOS 10 APIs on iOS, and use macOS 10.12 APIs on macOS
@@ -606,17 +591,18 @@ if #available(iOS 10, macOS 10.12, *) {
 //:
 //: -------------------
 //:
-//: The availability condition above specifies that in iOS, the body of the `if` statement executes only in iOS 10 and later; in macOS, only in macOS 10.12 and later. The last argument, `*`, is required and specifies that on any other platform, the body of the if executes on the minimum deployment target specified by your target.
-//:
-//: In its general form, the availability condition takes a list of platform names and versions. You use platform names such as iOS, macOS, watchOS, and tvOS—for the full list, see Declaration Attributes. In addition to specifying major version numbers like iOS 8 or macOS 10.10, you can specify minor versions numbers like iOS 11.2.6 and macOS 10.13.3.
-/*:
-    if #available(platformName version, ..., *) {
-        // statements to execute if the APIs are available
-    } else {
-        // fallback statements to execute if the APIs are unavailable
-    }
+//: In addition to specifying major version numbers like iOS 8 or macOS 10.10, you can specify minor versions numbers like iOS 11.2.6 and macOS 10.13.3.
+/*
+if #available(platformName version, ..., *) {
+    // statements to execute if the APIs are available
+} else {
+    // fallback statements to execute if the APIs are unavailable
+}
 */
-//: When you use an availability condition with a `guard` statement, it refines the availability information that’s used for the rest of the code in that code block.
+//:
+//: -------------------
+//:
+//: A `guard` statement:
 @available(macOS 10.12, *)
 struct ColorPreference {
     var bestColor = "blue"
@@ -633,9 +619,7 @@ func chooseBestColor() -> String {
 //:
 //: -------------------
 //:
-//: In the example above, the `ColorPreference` structure requires macOS 10.12 or later. The `chooseBestColor()` function begins with an availability guard. If the platform version is too old to use `ColorPreference`, it falls back to behavior that’s always available. After the `guard` statement, you can use APIs that require macOS 10.12 or later.
-//:
-//: In addition to `#available`, Swift also supports the opposite check using an unavailability condition. For example, the following two checks do the same thing:
+//: An unavailability condition:
 if #available(iOS 10, *) {
 } else {
     // Fallback code
@@ -648,9 +632,6 @@ if #unavailable(iOS 10) {
 //:
 //: -------------------
 //:
-//: Using the `#unavailable` form helps make your code more readable when the check contains only fallback code.
-//:
-//: -------------------
 //: ## Original Source Documentation
 //: To view the original page [click here - Control Flow](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/controlflow)
 //:
