@@ -340,7 +340,7 @@ print("There are \(naturalCount) \(countedThings).")
 //:
 //: An integer tuple:
 
-let somePoint = (1, 1)
+let somePoint = (1, 1) // a tuple
 switch somePoint {
 case (0, 0):
     print("\(somePoint) is at the origin")
@@ -379,6 +379,8 @@ case let (x, y):
 //: -------------------
 //:
 //: ### Where
+//:
+//: A `where` clause offers strict limitations.
 //:
 //: ![Diagram](coordinateGraphComplex_2x.png)
 //:
