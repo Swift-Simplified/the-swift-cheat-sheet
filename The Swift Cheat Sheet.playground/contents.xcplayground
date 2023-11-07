@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<playground version='6.0' target-platform='ios' display-mode='raw'>
+    <pages>
+        <page name='→ Start Here (Click On Me)'/>
+        <page name='1 The Basics'/>
+        <page name='2 Basic Operators'/>
+        <page name='3 Strings and Characters'/>
+        <page name='4 Collection Types'/>
+        <page name='5 Control Flow'/>
+        <page name='6 Functions'/>
+        <page name='7 Closures'/>
+        <page name='8 Enumerations'/>
+        <page name='9 Structures and Classes'/>
+        <page name='10 Properties'/>
+        <page name='11 Methods'/>
+        <page name='12 Subscripts'/>
+        <page name='13 Inheritance'/>
+        <page name='14 Initialization'/>
+        <page name='15 Deinitialization'/>
+        <page name='16 Optional Chaining'/>
+        <page name='17 Error Handling'/>
+        <page name='18 Concurrency'/>
+        <page name='19 Type Casting'/>
+        <page name='20 Nested Types'/>
+        <page name='21 Extensions'/>
+        <page name='22 Protocols'/>
+        <page name='23 Generics'/>
+        <page name='24 Opaque Types'/>
+        <page name='25 Automatic Reference Counting'/>
+        <page name='26 Memory Safety'/>
+        <page name='27 Access Control'/>
+        <page name='28 Advanced Operators'/>
+        <page name='Terms And Conditions'/>
+    </pages>
+</playground>
