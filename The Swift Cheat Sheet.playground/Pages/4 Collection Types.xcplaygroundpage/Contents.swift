@@ -206,8 +206,7 @@ let apples = shoppingList.removeLast()
 //:
 //: ### Iterating Over an Array
 //:
-//: You can iterate over the entire set of values in an array with the `for-in` loop:
-
+//: Use a `for-in` loop to iterate over all values:
 for item in shoppingList {
     print(item)
 }
@@ -220,8 +219,7 @@ for item in shoppingList {
 //:
 //: -------------------
 //:
-//: If you need the integer index of each item as well as its value, use the `enumerated()` method to iterate over the array instead. For each item in the array, the `enumerated()` method returns a tuple composed of an integer and the item. The integers start at zero and count up by one for each item; if you enumerate over a whole array, these integers match the items’ indices. You can decompose the tuple into temporary constants or variables as part of the iteration:
-
+//: Use the `enumerated()` function to use both index and value:
 for (index, value) in shoppingList.enumerated() {
     print("Item \(index + 1): \(value)")
 }
