@@ -91,7 +91,7 @@ let arrayLiteral = ["value1", "value2", "value3"] // array literal
 //: -------------------
 //:
 //: Use an array literal to set the type:
-let shoppingList: [String] = ["Eggs", "Milk"]
+let shoppingList1: [String] = ["Eggs", "Milk"]
 let shoppingList2 = ["Eggs", "Milk"] // declared as [String]
 // shoppingList2 is declared using type inference
 // << 🔵 Run Point
@@ -100,16 +100,21 @@ let shoppingList2 = ["Eggs", "Milk"] // declared as [String]
 //:
 //: ### Accessing and Modifying an Array
 //:
-//: You access and modify an array through its methods and properties, or by using subscript syntax.
+//: Use methods and properties to access or modify values.
 //:
-//: To find out the number of items in an array, check its read-only `count` property:
+//: Alternatively you can use subscript syntax.
+//:
+//: -------------------
+//:
+//: Use the `count` property to find out the number of elements:
+var shoppingList = ["Eggs", "Milk"]
 print("The shopping list contains \(shoppingList.count) items.")
 // Prints "The shopping list contains 2 items."
 // << 🔵 Run Point
 //:
 //: -------------------
 //:
-//: Use the Boolean `isEmpty` property as a shortcut for checking whether the `count` property is equal to `0`:
+//: Use the Boolean `isEmpty` property to check if `count` is zero:
 if shoppingList.isEmpty {
     print("The shopping list is empty.")
 } else {
@@ -120,14 +125,14 @@ if shoppingList.isEmpty {
 //:
 //: -------------------
 //:
-//: You can add a new item to the end of an array by calling the array’s `append(_:)` method:
+//: Add a new item to the end:
 shoppingList.append("Flour")
 // shoppingList now contains 3 items, and someone is making pancakes
 // << 🔵 Run Point
 //:
 //: -------------------
 //:
-//: Alternatively, append an array of one or more compatible items with the addition assignment operator (`+=`):
+//: Alternatively, append an entire array:
 shoppingList += ["Baking Powder"]
 // shoppingList now contains 4 items
 shoppingList += ["Chocolate Spread", "Cheese", "Butter"]
@@ -136,44 +141,45 @@ shoppingList += ["Chocolate Spread", "Cheese", "Butter"]
 //:
 //: -------------------
 //:
-//: Retrieve a value from the array by using subscript syntax, passing the index of the value you want to retrieve within square brackets immediately after the name of the array:
+//: Retrieve a value from the array using subscript syntax:
 var firstItem = shoppingList[0]
 // firstItem is equal to "Eggs"
 // << 🔵 Run Point
 //:
 //: -------------------
 //:
-//: * callout(Note):
-//:     → The first item in the array has an index of `0`, not `1`. Arrays in Swift are always zero-indexed.
-//:
-//: You can use subscript syntax to change an existing value at a given index:
+//: Use subscript syntax to change an existing value:
 shoppingList[0] = "Six eggs"
 // the first item in the list is now equal to "Six eggs" rather than "Eggs"
 // << 🔵 Run Point
 //:
 //: -------------------
 //:
-//: When you use subscript syntax, the index you specify needs to be valid. For example, writing `shoppingList[shoppingList.count] = "Salt"` to try to append an item to the end of the array results in a runtime error.
+//: When using subscript syntax, the index needs to be valid:
+// ⛔️ Run time error: uncomment to view
+//shoppingList[shoppingList.count] = "Salt"
+// << 🔵 Run Point
 //:
-//: You can also use subscript syntax to change a range of values at once, even if the replacement set of values has a different length than the range you are replacing. The following example replaces `"Chocolate Spread"`, `"Cheese"`, and `"Butter"` with `"Bananas"` and `"Apples"`:
+//: -------------------
+//:
+//: Use subscript to change a range of values at once:
 shoppingList[4...6] = ["Bananas", "Apples"]
+print(shoppingList)
 // shoppingList now contains 6 items
 // << 🔵 Run Point
 //:
 //: -------------------
 //:
-//: To insert an item into the array at a specified index, call the array’s `insert(_:at:)` method:
-
+//: Insert an item into the array at a specified index:
 shoppingList.insert("Maple Syrup", at: 0)
+firstItem = shoppingList[0] // now is "Maple Syrup"
 // shoppingList now contains 7 items
 // "Maple Syrup" is now the first item in the list
 // << 🔵 Run Point
 //:
 //: -------------------
 //:
-//: This call to the `insert(_:at:)` method inserts a new item with a value of `"Maple Syrup"` at the very beginning of the shopping list, indicated by an index of `0`.
-//:
-//: Similarly, you remove an item from the array with the `remove(at:)` method. This method removes the item at the specified index and returns the removed item (although you can ignore the returned value if you don’t need it):
+//: Remove an item from an array:
 let mapleSyrup = shoppingList.remove(at: 0)
 // the item that was at index 0 has just been removed
 // shoppingList now contains 6 items, and no Maple Syrup
@@ -182,17 +188,14 @@ let mapleSyrup = shoppingList.remove(at: 0)
 //:
 //: -------------------
 //:
-//: * callout(Note):
-//:     → If you try to access or modify a value for an index that’s outside of an array’s existing bounds, you will trigger a runtime error. You can check that an index is valid before using it by comparing it to the array’s `count` property. The largest valid index in an array is `count - 1` because arrays are indexed from zero—however, when `count` is `0` (meaning the array is empty), there are no valid indexes.
-//:
-//: Any gaps in an array are closed when an item is removed, and so the value at index `0` is once again equal to `"Six eggs"`:
-firstItem = shoppingList[0]
+//: Any gaps in an array are closed when an item is removed:
+firstItem = shoppingList[0] //  back to "Six eggs"
 // firstItem is now equal to "Six eggs"
 // << 🔵 Run Point
 //:
 //: -------------------
 //:
-//: If you want to remove the final item from an array, use the `removeLast()` method rather than the `remove(at:)` method to avoid the need to query the array’s `count` property. Like the `remove(at:)` method, `removeLast()` returns the removed item:
+//: Remove the final element:
 let apples = shoppingList.removeLast()
 // the last item in the array has just been removed
 // shoppingList now contains 5 items, and no apples
