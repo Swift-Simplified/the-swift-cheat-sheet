@@ -1,5 +1,5 @@
 //: ## ![SwiftSimplified.com](swift-simplified-logo.png)
-//:
+    //:
 //: ![Swift Simplified .com](ss-in-content-logo.png) [Swift Simplified .com](https://www.swiftsimplified.com)
 //:
 //: [Swift.org](https://www.swift.org) | [SwiftSimplified.com](https://www.swiftsimplified.com) | [Online Swift Course](https://www.swiftsimplified.com/the-swift-handbook) | [Swift Language Guide](https://www.swiftsimplified.com/the-swift-language-guide)
@@ -42,21 +42,18 @@ let immutableArray = [0,1,2,3,4]
 //: ### Array Type Shorthand Syntax
 //:
 //: Use longhand form and shorthand form to declare an array:
-let longHand: Array<Int> = Array<Int>()
-let shortHand = [Int]()
-let shortHand2 = [0,1,2,3,4] // preferred
+let longhandFormArray: Array<Int> = Array<Int>()
+let shorthandFormArray: [Int] = [Int]() // preferred
 //:
 //: -------------------
 //:
 //: ### Creating an Empty Array
 //:
-//: Use `[]` to create an empty array:
-var someInts: [Int] = []
+//: Use initialiser syntax to create an empty array:
+var someInts = [Int]() // initialiser syntax
 someInts.append(3)
-// someInts now contains 1 value of type Int
-someInts = []
 print("someInts is of type [Int] with \(someInts.count) items.")
-// Prints "someInts is of type [Int] with 0 items."
+// Prints "someInts is of type [Int] with 1 item."
 // << 🔵 Run Point
 //:
 //: -------------------
@@ -86,6 +83,7 @@ var sixDoubles = threeDoubles + anotherThreeDoubles
 //:
 //: You can initialize an array with an array literal:
 let arrayLiteral = ["value1", "value2", "value3"] // array literal
+let emptyArrayLiteral: [String] = [] // empty array literal
 // << 🔵 Run Point
 //:
 //: -------------------
@@ -253,8 +251,7 @@ for (index, value) in shoppingList.enumerated() {
 //: ### Set Type Syntax
 //:
 //: Sets don’t have a shorthand form:
-let aSet: Set<Int> = Set<Int>()
-let anotherSet: Set = Set<Int>()
+let longhandFormSet: Set<Int> = Set<Int>()
 // << 🔵 Run Point
 //:
 //: -------------------
@@ -490,78 +487,53 @@ if farmAnimals.isDisjoint(with: cityAnimals) {
 //:
 //: ## Dictionaries
 //:
-//: A dictionary stores associations between keys of the same type and values of the same type in a collection with no defined ordering. Each value is associated with a unique key, which acts as an identifier for that value within the dictionary. Unlike items in an array, items in a dictionary don’t have a specified order. You use a dictionary when you need to look up values based on their identifier, in much the same way that a real-world dictionary is used to look up the definition for a particular word.
+//: A dictionary stores values identified by a key with no defined ordering.
 //:
-//: * callout(Note):
-//:     → Swift’s `Dictionary` type is bridged to Foundation’s `NSDictionary` class.
-//:
-//:     For more information about using `Dictionary` with Foundation and Cocoa, see Bridging Between Dictionary and NSDictionary.
+//: Each `Key` must conform to the `Hashable` protocol.
 //:
 //: -------------------
 //:
 //: ### Dictionary Type Shorthand Syntax
 //:
-//: The type of a Swift dictionary is written in full as `Dictionary<Key, Value>`, where `Key` is the type of value that can be used as a dictionary key, and `Value` is the type of value that the dictionary stores for those keys.
-//:
-//: * callout(Note):
-//:     → A dictionary `Key` type must conform to the `Hashable` protocol, like a set’s value type.
-//:
-//: You can also write the type of a dictionary in shorthand form as `[Key: Value]`. Although the two forms are functionally identical, the shorthand form is preferred and is used throughout this guide when referring to the type of a dictionary.
+//: Use longhand form and shorthand form to declare a dictionary:
+let longhandFormDictionary: Dictionary<String, Int> = Dictionary<String, Int>()
+let shorthandFormDictionary: [String: Int] = [String: Int]() // preferred
+// << 🔵 Run Point
 //:
 //: -------------------
 //:
 //: ### Creating an Empty Dictionary
 //:
-//: As with arrays, you can create an empty `Dictionary` of a certain type by using initializer syntax:
-var namesOfIntegers: [Int: String] = [:]
+//: Use initializer syntax to declare an empty dictionary:
+var namesOfIntegers = [Int: String]()
 // namesOfIntegers is an empty [Int: String] dictionary
 // << 🔵 Run Point
 //:
 //: -------------------
 //:
-//: This example creates an empty dictionary of type `[Int: String]` to store human-readable names of integer values. Its keys are of type `Int`, and its values are of type `String`.
-//:
-//: If the context already provides type information, you can create an empty dictionary with an empty dictionary literal, which is written as `[:]` (a colon inside a pair of square brackets):
-
+//: If the context already provides type information, you can create an empty dictionary with an empty dictionary literal:
 namesOfIntegers[16] = "sixteen"
-// namesOfIntegers now contains 1 key-value pair
-namesOfIntegers = [:]
-// namesOfIntegers is once again an empty dictionary of type [Int: String]
+namesOfIntegers = [:] // empty dictionary literal
+// namesOfIntegers is once again an empty dictionary
 // << 🔵 Run Point
 //:
 //: -------------------
 //:
 //: ### Creating a Dictionary with a Dictionary Literal
 //:
-//: You can also initialize a dictionary with a dictionary literal, which has a similar syntax to the array literal seen earlier. A dictionary literal is a shorthand way to write one or more key-value pairs as a `Dictionary` collection.
-//:
-//: A key-value pair is a combination of a key and a value. In a dictionary literal, the key and value in each key-value pair are separated by a colon. The key-value pairs are written as a list, separated by commas, surrounded by a pair of square brackets:
-//:
+//: Use a dictionary literal to initialize a dictionary:
 /*
-[key1: value1, key2: value2, key3: value3]
+ format of a dictionary litertal
+ [key1: value1, key2: value2, key3: value3]
 */
-//: The example below creates a dictionary to store the names of international airports. In this dictionary, the keys are three-letter International Air Transport Association codes, and the values are airport names:
 var airports: [String: String] = ["YYZ": "Toronto Pearson", "DUB": "Dublin"]
 // << 🔵 Run Point
 //:
 //: -------------------
 //:
-//: The airports dictionary is declared as having a type of `[String: String]`, which means “a `Dictionary` whose keys are of type `String`, and whose values are also of type `String`”.
-//:
-//: * callout(Note):
-//:     → The airports dictionary is declared as a variable (with the `var` introducer), and not a constant (with the `let` introducer), because more airports are added to the dictionary in the examples below.
-//:
-//: The airports dictionary is initialized with a dictionary literal containing two key-value pairs. The first pair has a key of `"YYZ"` and a value of `"Toronto Pearson"`. The second pair has a key of `"DUB"` and a value of `"Dublin"`.
-//:
-//: This dictionary literal contains two `String: String` pairs. This key-value type matches the type of the airports variable declaration (a dictionary with only `String` keys, and only `String` values), and so the assignment of the dictionary literal is permitted as a way to initialize the airports dictionary with two initial items.
-//:
-//: As with arrays, you don’t have to write the type of the dictionary if you’re initializing it with a dictionary literal whose keys and values have consistent types. The initialization of airports could have been written in a shorter form instead:
-airports = ["YYZ": "Toronto Pearson", "DUB": "Dublin"]
+//: Use the dictionary literal to infer to type annotation:
+let moreAirports = ["YYZ": "Toronto Pearson", "DUB": "Dublin"]
 // << 🔵 Run Point
-//:
-//: -------------------
-//:
-//: Because all keys in the literal are of the same type as each other, and likewise all values are of the same type as each other, Swift can infer that `[String: String]` is the correct type to use for the airports dictionary.
 //:
 //: -------------------
 //:
@@ -569,14 +541,16 @@ airports = ["YYZ": "Toronto Pearson", "DUB": "Dublin"]
 //:
 //: You access and modify a dictionary through its methods and properties, or by using subscript syntax.
 //:
-//: As with an array, you find out the number of items in a `Dictionary` by checking its read-only `count` property:
+//: -------------------
+//:
+//: Use the `count` property to find out the number of elements:
 print("The airports dictionary contains \(airports.count) items.")
 // Prints "The airports dictionary contains 2 items."
 // << 🔵 Run Point
 //:
 //: -------------------
 //:
-//: Use the Boolean `isEmpty` property as a shortcut for checking whether the `count` property is equal to `0`:
+//: Use the Boolean `isEmpty` property to check if `count` is zero:
 if airports.isEmpty {
     print("The airports dictionary is empty.")
 } else {
@@ -587,25 +561,23 @@ if airports.isEmpty {
 //:
 //: -------------------
 //:
-//: You can add a new item to a dictionary with subscript syntax. Use a new key of the appropriate type as the subscript index, and assign a new value of the appropriate type:
+//: Use subscript syntax to add a new item to a dictionary:
 airports["LHR"] = "London"
 // the airports dictionary now contains 3 items
 // << 🔵 Run Point
 //:
 //: -------------------
 //:
-//: You can also use subscript syntax to change the value associated with a particular key:
-
+//: Use subscript syntax to change an existing value:
 airports["LHR"] = "London Heathrow"
 // the value for "LHR" has been changed to "London Heathrow"
 // << 🔵 Run Point
 //:
 //: -------------------
 //:
-//: As an alternative to subscripting, use a dictionary’s `updateValue(_:forKey:)` method to set or update the value for a particular key. Like the subscript examples above, the `updateValue(_:forKey:)` method sets a value for a key if none exists, or updates the value if that key already exists. Unlike a subscript, however, the `updateValue(_:forKey:)` method returns the old value after performing an update. This enables you to check whether or not an update took place.
+//: An alternative to using subscript is to use `updateValue(_:forKey:)`:
 //:
-//: The `updateValue(_:forKey:)` method returns an optional value of the dictionary’s value type. For a dictionary that stores `String` values, for example, the method returns a value of type `String?`, or “optional `String`”. This optional value contains the old value for that key if one existed before the update, or nil if no value existed:
-
+//: The `updateValue(_:forKey:)` method returns the previous value as an optional.
 if let oldValue = airports.updateValue("Dublin Airport", forKey: "DUB") {
     print("The old value for DUB was \(oldValue).")
 }
@@ -614,7 +586,9 @@ if let oldValue = airports.updateValue("Dublin Airport", forKey: "DUB") {
 //:
 //: -------------------
 //:
-//: You can also use subscript syntax to retrieve a value from the dictionary for a particular key. Because it’s possible to request a key for which no value exists, a dictionary’s subscript returns an optional value of the dictionary’s value type. If the dictionary contains a value for the requested key, the subscript returns an optional value containing the existing value for that key. Otherwise, the subscript returns nil:
+//: Use subscript syntax to retrieve a value:
+//:
+//: The subscript returns an optional.
 if let airportName = airports["DUB"] {
     print("The name of the airport is \(airportName).")
 } else {
@@ -625,8 +599,7 @@ if let airportName = airports["DUB"] {
 //:
 //: -------------------
 //:
-//: You can use subscript syntax to remove a key-value pair from a dictionary by assigning a value of `nil` for that key:
-
+//: Use subscript syntax to remove a key-value pair by assigning `nil`:
 airports["APL"] = "Apple International"
 // "Apple International" isn't the real airport for APL, so delete it
 airports["APL"] = nil
@@ -635,8 +608,7 @@ airports["APL"] = nil
 //:
 //: -------------------
 //:
-//: Alternatively, remove a key-value pair from a dictionary with the `removeValue(forKey:)` method. This method removes the key-value pair if it exists and returns the removed value, or returns `nil` if no value existed:
-
+//: Alternatively, use `removeValue(forKey:)` to remove a key-value pair:
 if let removedValue = airports.removeValue(forKey: "DUB") {
     print("The removed airport's name is \(removedValue).")
 } else {
