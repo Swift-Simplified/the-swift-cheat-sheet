@@ -278,8 +278,9 @@ var favoriteGenres: Set<String> = ["Rock", "Classical", "Hip hop"]
 //:
 //: -------------------
 //:
-//: The elements type can be inferred from an array literal:
+//: The type for each element is inferred from an array literal:
 let favoriteGenres2: Set = ["Rock", "Classical", "Hip hop"]
+// a set of String values
 // << 🔵 Run Point
 //:
 //: -------------------
@@ -292,7 +293,7 @@ let favoriteGenres3: Set<String> = []
 //:
 //: ### Accessing and Modifying a Set
 //:
-//: USe methods and properties to access and modify a set:
+//: Use methods and properties to access and modify a set:
 print("I have \(favoriteGenres.count) favorite music genres.")
 // Prints "I have 3 favorite music genres."
 // << 🔵 Run Point
@@ -349,7 +350,7 @@ if favoriteGenres.contains("Funk") {
 //:
 //: ### Iterating Over a Set
 //:
-//: Use a a `for-in` loop to iterate over all values:
+//: Use a `for-in` loop to iterate over all values:
 for genre in favoriteGenres {
     print("\(genre)")
 }
@@ -379,14 +380,17 @@ for genre in favoriteGenres.sorted() {
 //:
 //: ## Performing Set Operations
 //:
-//: Performing fundamental set operations, such as combining two sets together or determining which values two sets have in common is very efficient.
+//: Performing fundamental operations is very efficient.
 //:
 //: -------------------
 //:
 //: ### Fundamental Set Operations
 //:
 //: ![Diagram](setVennDiagram_2x.png)
-//: Use `intersection(_:)` to find matching values in both sets.
+//:
+//: -------------------
+//:
+//: Use `intersection(_:)` to find matching values in both sets:
 let oddDigits: Set = [1, 3, 5, 7, 9]
 let evenDigits: Set = [0, 2, 4, 6, 8]
 let singleDigitPrimeNumbers: Set = [2, 3, 5, 7]
@@ -397,7 +401,7 @@ let matchingElements = oddDigits.intersection(evenDigits)
 //:
 //: -------------------
 //:
-//: Use `symmetricDifference(_:)` to find values that don't exist in both sets.
+//: Use `symmetricDifference(_:)` to find values that don't exist in both sets:
 let uniqueElements = oddDigits.symmetricDifference(singleDigitPrimeNumbers)
 // [1, 2, 9]
 // << 🔵 Run Point
@@ -419,27 +423,66 @@ let oddDigitsWithoutPrimeNumbers = oddDigits.subtracting(singleDigitPrimeNumbers
 //:
 //: ### Set Membership and Equality
 //:
-//: The illustration below depicts three sets—`a`, `b` and `c`—with overlapping regions representing elements shared among sets. Set `a` is a superset of set `b`, because a contains all elements in `b`. Conversely, set `b` is a subset of set `a`, because all elements in `b` are also contained by `a`. Set `b` and set `c` are disjoint with one another, because they share no elements in common.
-//:
 //: ![Diagram](setEulerDiagram_2x.png)
-//: * Use the “is equal” operator (`==`) to determine whether two sets contain all of the same values.
 //:
-//: * Use the `isSubset(of:)` method to determine whether all of the values of a set are contained in the specified set.
+//: -------------------
 //:
-//: * Use the `isSuperset(of:)` method to determine whether a set contains all of the values in a specified set.
+//: Use the “is equal” operator (`==`) to determine if two sets contain the same values:
+let animals: Set = ["🐱", "🐶"]
+let catsAndDogs: Set = ["🐱", "🐶"]
+if animals == catsAndDogs {
+    print("The animals are the same!")
+}
+// << 🔵 Run Point
 //:
-//: * Use the `isStrictSubset(of:)` or `isStrictSuperset(of:)` methods to determine whether a set is a subset or superset, but not equal to, a specified set.
+//: -------------------
 //:
-//: * Use the `isDisjoint(with:)` method to determine whether two sets have no values in common.
+//: Use `isSubset(of:)` to determine if all values are present in another set:
 let houseAnimals: Set = ["🐶", "🐱"]
 let farmAnimals: Set = ["🐮", "🐔", "🐑", "🐶", "🐱"]
 let cityAnimals: Set = ["🐦", "🐭"]
 
-houseAnimals.isSubset(of: farmAnimals)
+if houseAnimals.isSubset(of: farmAnimals) {
+    print("House animals is a subset of farm animals")
+}
 // true
-farmAnimals.isSuperset(of: houseAnimals)
+// << 🔵 Run Point
+//:
+//: -------------------
+//:
+//: Use `isSuperset(of:)` to determine if the passed in set is a subset:
+if farmAnimals.isSuperset(of: houseAnimals) {
+   print("Farm animals is a superset of house animals")
+}
 // true
-farmAnimals.isDisjoint(with: cityAnimals)
+// << 🔵 Run Point
+//:
+//: -------------------
+//:
+//: Use `isStrictSubset(of:)` or `isStrictSuperset(of:)` to determine if a set is a subset or superset, but not equal to the specified set:
+// subset
+if farmAnimals.isSubset(of: farmAnimals) {
+    print("🐮 Farm animals is also subset of farm animals")
+}
+if !farmAnimals.isStrictSubset(of: farmAnimals) {
+    print("🐮 Farm animals is not a strict subset of farm animals")
+}
+
+// superset
+if farmAnimals.isSuperset(of: farmAnimals) {
+   print("🐔 Farm animals is a superset of farm animals")
+}
+if !farmAnimals.isStrictSuperset(of: farmAnimals) {
+   print("🐔 Farm animals is not a strict superset of farm animals")
+}
+// << 🔵 Run Point
+//:
+//: -------------------
+//:
+//: Use `isDisjoint(with:)` to determine if two sets have no matching values:
+if farmAnimals.isDisjoint(with: cityAnimals) {
+   print("🐑 Farm animals are different than city animals")
+}
 // true
 // << 🔵 Run Point
 //:
