@@ -1,5 +1,5 @@
 //: ## ![SwiftSimplified.com](swift-simplified-logo.png)
-    //:
+//:
 //: ![Swift Simplified .com](ss-in-content-logo.png) [Swift Simplified .com](https://www.swiftsimplified.com)
 //:
 //: [Swift.org](https://www.swift.org) | [SwiftSimplified.com](https://www.swiftsimplified.com) | [Online Swift Course](https://www.swiftsimplified.com/the-swift-handbook) | [Swift Language Guide](https://www.swiftsimplified.com/the-swift-language-guide)
@@ -25,9 +25,12 @@
 //:
 //: ## Mutability of Collections
 //:
-//: Use `var` to use a mutable collection:
+//: Use `var` to create a mutable collection:
+//:
+//: Use `let` to create an immutable collection:
 var mutableArray = [0,1,2,3]
 mutableArray.append(4)
+
 let immutableArray = [0,1,2,3,4]
 // << 🔵 Run Point
 //:
@@ -621,7 +624,7 @@ if let removedValue = airports.removeValue(forKey: "DUB") {
 //:
 //: ### Iterating Over a Dictionary
 //:
-//: You can iterate over the key-value pairs in a dictionary with a `for-in` loop. Each item in the dictionary is returned as a `(key, value)` tuple, and you can decompose the tuple’s members into temporary constants or variables as part of the iteration:
+//: Use a `for-in` loop to to iterate over the key-value pairs:
 for (airportCode, airportName) in airports {
     print("\(airportCode): \(airportName)")
 }
@@ -633,7 +636,9 @@ for (airportCode, airportName) in airports {
 //:
 //: For more about the for-in loop, see For-In Loops.
 //:
-//: You can also retrieve an iterable collection of a dictionary’s keys or values by accessing its `keys` and `values` properties:
+//: -------------------
+//:
+//: Use the `keys` and `values` properties to retrieve an iterable collection:
 for airportCode in airports.keys {
     print("Airport code: \(airportCode)")
 }
@@ -649,8 +654,7 @@ for airportName in airports.values {
 //:
 //: -------------------
 //:
-//: If you need to use a dictionary’s keys or values with an API that takes an `Array` instance, initialize a new array with the `keys` or `values` property:
-
+//: you can use the `keys` or `values` property to instantiate an array:
 let airportCodes = [String](airports.keys)
 // airportCodes is ["LHR", "YYZ"]
 
@@ -660,7 +664,13 @@ let airportNames = [String](airports.values)
 //:
 //: -------------------
 //:
-//: Swift’s `Dictionary` type doesn’t have a defined ordering. To iterate over the keys or values of a dictionary in a specific order, use the `sorted()` method on its `keys` or `values` property.
+//: Use the `sorted()` method to create an ordered array from its `keys` or `values` property:
+//:
+//: ordered by the `<` operator.
+for airportCode in airports.keys.sorted() {
+    print("\(airportCode)")
+}
+// << 🔵 Run Point
 //:
 //: -------------------
 //: ## Original Source Documentation
