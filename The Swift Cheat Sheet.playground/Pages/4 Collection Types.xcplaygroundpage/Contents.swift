@@ -238,35 +238,30 @@ for (index, value) in shoppingList.enumerated() {
 //:
 //: ## Sets
 //:
-//: A set stores distinct values of the same type in a collection with no defined ordering. You can use a set instead of an array when the order of items isn’t important, or when you need to ensure that an item only appears once.
-//:
-//: * callout(Note):
-//:     → Swift’s Set type is bridged to Foundation’s `NSSet` class.
-//:
-//:     For more information about using `Set` with Foundation and Cocoa, see Bridging Between Set and NSSet.
+//: A set stores unique values in a collection with no ordering.
 //:
 //: -------------------
 //:
 //: ### Hash Values for Set Types
 //:
-//: A type must be hashable in order to be stored in a set—that is, the type must provide a way to compute a hash value for itself. A hash value is an `Int` value that’s the same for all objects that compare equally, such that `if a == b`, the hash value of `a` is equal to the hash value of `b`.
+//: A type must be hashable in order to be stored in a set.
 //:
-//: All of Swift’s basic types (such as `String`, `Int`, `Double`, and `Bool`) are hashable by default, and can be used as set value types or dictionary key types. Enumeration case values without associated values (as described in Enumerations) are also hashable by default.
-//:
-//: * callout(Note):
-//:     → You can use your own custom types as set value types or dictionary key types by making them conform to the Hashable protocol from the Swift standard library. For information about implementing the required `hash(into:)` method, see Hashable. For information about conforming to protocols, see Protocols.
+//: All of Swift’s basic types (such as `String`, `Int`, `Double`, and `Bool`) are hashable by default.
 //:
 //: -------------------
 //:
 //: ### Set Type Syntax
 //:
-//: The type of a Swift set is written as `Set<Element>`, where `Element` is the type that the set is allowed to store. Unlike arrays, sets don’t have an equivalent shorthand form.
+//: Sets don’t have a shorthand form:
+let aSet: Set<Int> = Set<Int>()
+let anotherSet: Set = Set<Int>()
+// << 🔵 Run Point
 //:
 //: -------------------
 //:
 //: ### Creating and Initializing an Empty Set
 //:
-//: You can create an empty set of a certain type using initializer syntax:
+//: Use initializer syntax to create an empty set:
 var letters = Set<Character>()
 print("letters is of type Set<Character> with \(letters.count) items.")
 // Prints "letters is of type Set<Character> with 0 items."
@@ -274,56 +269,37 @@ print("letters is of type Set<Character> with \(letters.count) items.")
 //:
 //: -------------------
 //:
-//: * callout(Note):
-//:     → The type of the letters variable is inferred to be `Set<Character>`, from the type of the initializer.
-//:
-//: Alternatively, if the context already provides type information, such as a function argument or an already typed variable or constant, you can create an empty set with an empty array literal:
-letters.insert("a")
-// letters now contains 1 value of type Character
-letters = []
-// letters is now an empty set, but is still of type Set<Character>
-// << 🔵 Run Point
-//:
-//: -------------------
-//:
 //: ### Creating a Set with an Array Literal
 //:
-//: You can also initialize a set with an array literal, as a shorthand way to write one or more values as a set collection.
-//:
-//: The example below creates a set called `favoriteGenres` to store `String` values:
+//: Use an array literal to initialize a set:
 var favoriteGenres: Set<String> = ["Rock", "Classical", "Hip hop"]
-// favoriteGenres has been initialized with three initial items
+// favoriteGenres has been initialized with three initial items from an array literal
 // << 🔵 Run Point
 //:
 //: -------------------
 //:
-//: The `favoriteGenres` variable is declared as “a set of `String` values”, written as `Set<String>`. Because this particular set has specified a value type of `String`, it’s only allowed to store `String` values. Here, the `favoriteGenres` set is initialized with three `String` values (`"Rock"`, `"Classical"`, and `"Hip hop"`), written within an array literal.
-//:
-//: * callout(Note):
-//:     → The `favoriteGenres` set is declared as a variable (with the `var` introducer) and not a constant (with the `let` introducer) because items are added and removed in the examples below.
-//:
-//: A set type can’t be inferred from an array literal alone, so the type `Set` must be explicitly declared. However, because of Swift’s type inference, you don’t have to write the type of the set’s elements if you’re initializing it with an array literal that contains values of just one type. The initialization of `favoriteGenres` could have been written in a shorter form instead:
-var favoriteGenres2: Set = ["Rock", "Classical", "Hip hop"]
+//: The elements type can be inferred from an array literal:
+let favoriteGenres2: Set = ["Rock", "Classical", "Hip hop"]
 // << 🔵 Run Point
 //:
 //: -------------------
 //:
-//: Because all values in the array literal are of the same type, Swift can infer that `Set<String>` is the correct type to use for the `favoriteGenres` variable.
+//: Specify the type when using an empty array literal:
+let favoriteGenres3: Set<String> = []
+// << 🔵 Run Point
 //:
 //: -------------------
 //:
 //: ### Accessing and Modifying a Set
 //:
-//: You access and modify a set through its methods and properties.
-//:
-//: To find out the number of items in a set, check its read-only `count` property:
+//: USe methods and properties to access and modify a set:
 print("I have \(favoriteGenres.count) favorite music genres.")
 // Prints "I have 3 favorite music genres."
 // << 🔵 Run Point
 //:
 //: -------------------
 //:
-//: Use the Boolean `isEmpty` property as a shortcut for checking whether the `count` property is equal to `0`:
+//: Use the Boolean `isEmpty` property to check if `count` is zero:
 if favoriteGenres.isEmpty {
     print("As far as music goes, I'm not picky.")
 } else {
@@ -334,14 +310,16 @@ if favoriteGenres.isEmpty {
 //:
 //: -------------------
 //:
-//: You can add a new item into a set by calling the set’s `insert(_:)` method:
+//: Use `insert(_:)` to add a new element:
 favoriteGenres.insert("Jazz")
 // favoriteGenres now contains 4 items
 // << 🔵 Run Point
 //:
 //: -------------------
 //:
-//: You can remove an item from a set by calling the set’s `remove(_:)` method, which removes the item if it’s a member of the set, and returns the removed value, or returns `nil` if the set didn’t contain it. Alternatively, all items in a set can be removed with its `removeAll()` method.
+//: Use `remove(_:)` to remove an element:
+//:
+//: returns the removed value, or `nil` if it doesn't exist.
 if let removedGenre = favoriteGenres.remove("Rock") {
     print("\(removedGenre)? I'm over it.")
 } else {
@@ -352,7 +330,13 @@ if let removedGenre = favoriteGenres.remove("Rock") {
 //:
 //: -------------------
 //:
-//: To check whether a set contains a particular item, use the `contains(_:)` method.
+//: Use `removeAll()` to remove all elements:
+favoriteGenres.removeAll()
+// << 🔵 Run Point
+//:
+//: -------------------
+//:
+//: Use `contains(_:)` to check if a set contains an element:
 if favoriteGenres.contains("Funk") {
     print("I get up on the good foot.")
 } else {
@@ -365,7 +349,7 @@ if favoriteGenres.contains("Funk") {
 //:
 //: ### Iterating Over a Set
 //:
-//: You can iterate over the values in a set with a `for-in` loop.
+//: Use a a `for-in` loop to iterate over all values:
 for genre in favoriteGenres {
     print("\(genre)")
 }
@@ -378,7 +362,11 @@ for genre in favoriteGenres {
 //:
 //: For more about the `for-in` loop, see For-In Loops.
 //:
-//: Swift’s Set type doesn’t have a defined ordering. To iterate over the values of a set in a specific order, use the `sorted()` method, which returns the set’s elements as an array sorted using the `<` operator.
+//: -------------------
+//:
+//: Use the `sorted()` method to create an ordered array:
+//:
+//: ordered by the `<` operator.
 for genre in favoriteGenres.sorted() {
     print("\(genre)")
 }
@@ -391,34 +379,40 @@ for genre in favoriteGenres.sorted() {
 //:
 //: ## Performing Set Operations
 //:
-//: You can efficiently perform fundamental set operations, such as combining two sets together, determining which values two sets have in common, or determining whether two sets contain all, some, or none of the same values.
+//: Performing fundamental set operations, such as combining two sets together or determining which values two sets have in common is very efficient.
 //:
 //: -------------------
 //:
 //: ### Fundamental Set Operations
 //:
-//: The illustration below depicts two sets—`a` and `b`—with the results of various set operations represented by the shaded regions.
-//:
 //: ![Diagram](setVennDiagram_2x.png)
-//: * Use the `intersection(_:)` method to create a new set with only the values common to both sets.
-//:
-//: * Use the `symmetricDifference(_:)` method to create a new set with values in either set, but not both.
-//:
-//: * Use the `union(_:)` method to create a new set with all of the values in both sets.
-//:
-//: * Use the `subtracting(_:)` method to create a new set with values not in the specified set.
+//: Use `intersection(_:)` to find matching values in both sets.
 let oddDigits: Set = [1, 3, 5, 7, 9]
 let evenDigits: Set = [0, 2, 4, 6, 8]
 let singleDigitPrimeNumbers: Set = [2, 3, 5, 7]
 
-oddDigits.union(evenDigits).sorted()
-// [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-oddDigits.intersection(evenDigits).sorted()
+let matchingElements = oddDigits.intersection(evenDigits)
 // []
-oddDigits.subtracting(singleDigitPrimeNumbers).sorted()
-// [1, 9]
-oddDigits.symmetricDifference(singleDigitPrimeNumbers).sorted()
+// << 🔵 Run Point
+//:
+//: -------------------
+//:
+//: Use `symmetricDifference(_:)` to find values that don't exist in both sets.
+let uniqueElements = oddDigits.symmetricDifference(singleDigitPrimeNumbers)
 // [1, 2, 9]
+// << 🔵 Run Point
+//:
+//: -------------------
+//:
+//: Use `union(_:)` to combine all values in both sets:
+let mergedSets = oddDigits.union(evenDigits)
+// << 🔵 Run Point
+//:
+//: -------------------
+//:
+//: Use `subtracting(_:)` to remove elements from another set:
+let oddDigitsWithoutPrimeNumbers = oddDigits.subtracting(singleDigitPrimeNumbers)
+// [1, 9]
 // << 🔵 Run Point
 //:
 //: -------------------
