@@ -17,9 +17,11 @@
 //: ## Topic 23: Generics
 //:
 //:
-//: Generic code enables you to write flexible, reusable functions and types that can work with any type, subject to requirements that you define. You can write code that avoids duplication and expresses its intent in a clear, abstracted manner.
+//: Generics are one of the most powerful features of Swift.
 //:
-//: Generics are one of the most powerful features of Swift, and much of the Swift standard library is built with generic code. In fact, you’ve been using generics throughout the Language Guide, even if you didn’t realize it. For example, Swift’s Array and Dictionary types are both generic collections. You can create an array that holds Int values, or an array that holds String values, or indeed an array for any other type that can be created in Swift. Similarly, you can create a dictionary to store values of any specified type, and there are no limitations on what that type can be.
+//: Much of the Swift standard library is built with generic code.
+//:
+//: Generic code enables you to write code that avoids duplication.
 //:
 //: -------------------
 //:
@@ -31,13 +33,6 @@ func swapTwoInts(_ a: inout Int, _ b: inout Int) {
     a = b
     b = temporaryA
 }
-// << 🔵 Run Point
-//:
-//: -------------------
-//:
-//: This function makes use of in-out parameters to swap the values of a and b, as described in In-Out Parameters.
-//:
-//: The swapTwoInts(_:_:) function swaps the original value of b into a, and the original value of a into b. You can call this function to swap the values in two Int variables:
 var someInt = 3
 var anotherInt = 107
 swapTwoInts(&someInt, &anotherInt)
@@ -47,7 +42,7 @@ print("someInt is now \(someInt), and anotherInt is now \(anotherInt)")
 //:
 //: -------------------
 //:
-//: The swapTwoInts(_:_:) function is useful, but it can only be used with Int values. If you want to swap two String values, or two Double values, you have to write more functions, such as the swapTwoStrings(_:_:) and swapTwoDoubles(_:_:) functions shown below:
+//: If you want to swap two String values, or two Double values, you have to write more functions:
 func swapTwoStrings(_ a: inout String, _ b: inout String) {
     let temporaryA = a
     a = b
@@ -63,18 +58,15 @@ func swapTwoDoubles(_ a: inout Double, _ b: inout Double) {
 //:
 //: -------------------
 //:
-//: You may have noticed that the bodies of the swapTwoInts(_:_:), swapTwoStrings(_:_:), and swapTwoDoubles(_:_:) functions are identical. The only difference is the type of the values that they accept (Int, String, and Double).
+//: You may notice that the bodies of the swapTwoInts(_:_:), swapTwoStrings(_:_:), and swapTwoDoubles(_:_:) functions are identical.
 //:
-//: It’s more useful, and considerably more flexible, to write a single function that swaps two values of any type. Generic code enables you to write such a function. (A generic version of these functions is defined below.)
-//:
-//: * callout(Note):
-//:     → In all three functions, the types of a and b must be the same. If a and b aren’t of the same type, it isn’t possible to swap their values. Swift is a type-safe language, and doesn’t allow (for example) a variable of type String and a variable of type Double to swap values with each other. Attempting to do so results in a compile-time error.
+//: The only difference is the type of the values that they accept (Int, String, and Double).
 //:
 //: -------------------
 //:
 //: ## Generic Functions
 //:
-//: Generic functions can work with any type. Here’s a generic version of the swapTwoInts(_:_:) function from above, called swapTwoValues(_:_:):
+//: Generic functions can work with any type:
 func swapTwoValues<T>(_ a: inout T, _ b: inout T) {
     let temporaryA = a
     a = b
@@ -84,18 +76,22 @@ func swapTwoValues<T>(_ a: inout T, _ b: inout T) {
 //:
 //: -------------------
 //:
-//: The body of the swapTwoValues(_:_:) function is identical to the body of the swapTwoInts(_:_:) function. However, the first line of swapTwoValues(_:_:) is slightly different from swapTwoInts(_:_:). Here’s how the first lines compare:
-//func swapTwoInts(_ a: inout Int, _ b: inout Int) {
-//func swapTwoValues<T>(_ a: inout T, _ b: inout T) {
+//: Here’s how the generic example compares to the non-generic example:
+/*
+ func swapTwoInts(_ a: inout Int, _ b: inout Int) {
+ func swapTwoValues<T>(_ a: inout T, _ b: inout T) {
+ */
 // << 🔵 Run Point
 //:
 //: -------------------
 //:
-//: The generic version of the function uses a placeholder type name (called T, in this case) instead of an actual type name (such as Int, String, or Double). The placeholder type name doesn’t say anything about what T must be, but it does say that both a and b must be of the same type T, whatever T represents. The actual type to use in place of T is determined each time the swapTwoValues(_:_:) function is called.
+//: The generic version of the function uses a placeholder type name (called T) instead of an actual type name (such as Int, String, or Double).
 //:
-//: The other difference between a generic function and a nongeneric function is that the generic function’s name (swapTwoValues(_:_:)) is followed by the placeholder type name (T) inside angle brackets (<T>). The brackets tell Swift that T is a placeholder type name within the swapTwoValues(_:_:) function definition. Because T is a placeholder, Swift doesn’t look for an actual type called T.
+//: The placeholder type name doesn’t say anything about what T must be, but it does say that both a and b must be of the same type T.
 //:
-//: The swapTwoValues(_:_:) function can now be called in the same way as swapTwoInts, except that it can be passed two values of any type, as long as both of those values are of the same type as each other. Each time swapTwoValues(_:_:) is called, the type to use for T is inferred from the types of values passed to the function.
+//: -------------------
+//:
+//: The swapTwoValues(_:_:) function can now be called with any type:
 //:
 //: In the two examples below, T is inferred to be Int and String respectively:
 someInt = 3
@@ -111,16 +107,9 @@ swapTwoValues(&someString, &anotherString)
 //:
 //: -------------------
 //:
-//: * callout(Note):
-//:     → The swapTwoValues(_:_:) function defined above is inspired by a generic function called swap, which is part of the Swift standard library, and is automatically made available for you to use in your apps. If you need the behavior of the swapTwoValues(_:_:) function in your own code, you can use Swift’s existing swap(_:_:) function rather than providing your own implementation.
-//:
-//: -------------------
-//:
 //: ## Type Parameters
 //:
-//: In the swapTwoValues(_:_:) example above, the placeholder type T is an example of a type parameter. Type parameters specify and name a placeholder type, and are written immediately after the function’s name, between a pair of matching angle brackets (such as <T>).
-//:
-//: Once you specify a type parameter, you can use it to define the type of a function’s parameters (such as the a and b parameters of the swapTwoValues(_:_:) function), or as the function’s return type, or as a type annotation within the body of the function. In each case, the type parameter is replaced with an actual type whenever the function is called. (In the swapTwoValues(_:_:) example above, T was replaced with Int the first time the function was called, and was replaced with String the second time it was called.)
+//: Type parameters specify and name a placeholder type, and are written immediately after the function’s name, between a pair of matching angle brackets (such as <T>).
 //:
 //: You can provide more than one type parameter by writing multiple type parameter names within the angle brackets, separated by commas.
 //:
@@ -128,36 +117,17 @@ swapTwoValues(&someString, &anotherString)
 //:
 //: ## Naming Type Parameters
 //:
-//: In most cases, type parameters have descriptive names, such as Key and Value in Dictionary<Key, Value> and Element in Array<Element>, which tells the reader about the relationship between the type parameter and the generic type or function it’s used in. However, when there isn’t a meaningful relationship between them, it’s traditional to name them using single letters such as T, U, and V, such as T in the swapTwoValues(_:_:) function above.
+//: In most cases, type parameters have descriptive names, such as Key and Value in Dictionary<Key, Value> and Element in Array<Element>.
 //:
-//: * callout(Note):
-//:     → Always give type parameters upper camel case names (such as T and MyTypeParameter) to indicate that they’re a placeholder for a type, not a value.
+//: When there isn’t a meaningful relationship between types, it’s traditional to name them T, U, and V.
 //:
 //: -------------------
 //:
 //: ## Generic Types
 //:
-//: In addition to generic functions, Swift enables you to define your own generic types. These are custom classes, structures, and enumerations that can work with any type, in a similar way to Array and Dictionary.
+//: In addition to generic functions, Swift enables you to define your own generic types.
 //:
-//: This section shows you how to write a generic collection type called Stack. A stack is an ordered set of values, similar to an array, but with a more restricted set of operations than Swift’s Array type. An array allows new items to be inserted and removed at any location in the array. A stack, however, allows new items to be appended only to the end of the collection (known as pushing a new value on to the stack). Similarly, a stack allows items to be removed only from the end of the collection (known as popping a value off the stack).
-//:
-//: * callout(Note):
-//:     → The concept of a stack is used by the UINavigationController class to model the view controllers in its navigation hierarchy. You call the UINavigationController class pushViewController(_:animated:) method to add (or push) a view controller on to the navigation stack, and its popViewControllerAnimated(_:) method to remove (or pop) a view controller from the navigation stack. A stack is a useful collection model whenever you need a strict “last in, first out” approach to managing a collection.
-//:
-//: The illustration below shows the push and pop behavior for a stack:
-//:
-//: ![Diagram](stackPushPop_2x.png)
-//: 1. There are currently three values on the stack.
-//:
-//: 2. A fourth value is pushed onto the top of the stack.
-//:
-//: 3. The stack now holds four values, with the most recent one at the top.
-//:
-//: 4. The top item in the stack is popped.
-//:
-//: 5. After popping a value, the stack once again holds three values.
-//:
-//: Here’s how to write a nongeneric version of a stack, in this case for a stack of Int values:
+//: Below is a `struct` without using generic code:
 struct IntStack {
     var items: [Int] = []
     mutating func push(_ item: Int) {
@@ -171,10 +141,6 @@ struct IntStack {
 //:
 //: -------------------
 //:
-//: This structure uses an Array property called items to store the values in the stack. Stack provides two methods, push and pop, to push and pop values on and off the stack. These methods are marked as mutating, because they need to modify (or mutate) the structure’s items array.
-//:
-//: The IntStack type shown above can only be used with Int values, however. It would be much more useful to define a generic Stack structure, that can manage a stack of any type of value.
-//:
 //: Here’s a generic version of the same code:
 struct Stack<Element> {
     var items: [Element] = []
@@ -185,23 +151,7 @@ struct Stack<Element> {
         return items.removeLast()
     }
 }
-// << 🔵 Run Point
-//:
-//: -------------------
-//:
-//: Note how the generic version of Stack is essentially the same as the nongeneric version, but with a type parameter called Element instead of an actual type of Int. This type parameter is written within a pair of angle brackets (<Element>) immediately after the structure’s name.
-//:
-//: Element defines a placeholder name for a type to be provided later. This future type can be referred to as Element anywhere within the structure’s definition. In this case, Element is used as a placeholder in three places:
-//:
-//: * To create a property called items, which is initialized with an empty array of values of type Element
-//:
-//: * To specify that the push(_:) method has a single parameter called item, which must be of type Element
-//:
-//: * To specify that the value returned by the pop() method will be a value of type Element
-//:
-//: Because it’s a generic type, Stack can be used to create a stack of any valid type in Swift, in a similar manner to Array and Dictionary.
-//:
-//: You create a new Stack instance by writing the type to be stored in the stack within angle brackets. For example, to create a new stack of strings, you write Stack<String>():
+
 var stackOfStrings = Stack<String>()
 stackOfStrings.push("uno")
 stackOfStrings.push("dos")
@@ -212,9 +162,10 @@ stackOfStrings.push("cuatro")
 //:
 //: -------------------
 //:
-//: Here’s how stackOfStrings looks after pushing these four values on to the stack:
+//: Push four values on to the stack:
 //:
 //: ![Diagram](stackPushedFourStrings_2x.png)
+//:
 //: Popping a value from the stack removes and returns the top value, "cuatro":
 let fromTheTop = stackOfStrings.pop()
 // fromTheTop is equal to "cuatro", and the stack now contains 3 strings
@@ -222,7 +173,7 @@ let fromTheTop = stackOfStrings.pop()
 //:
 //: -------------------
 //:
-//: Here’s how the stack looks after popping its top value:
+//: After popping its top value:
 //:
 //: ![Diagram](stackPoppedOneString_2x.png)
 //:
@@ -230,9 +181,9 @@ let fromTheTop = stackOfStrings.pop()
 //:
 //: ## Extending a Generic Type
 //:
-//: When you extend a generic type, you don’t provide a type parameter list as part of the extension’s definition. Instead, the type parameter list from the original type definition is available within the body of the extension, and the original type parameter names are used to refer to the type parameters from the original definition.
+//: When you extend a generic type, you don’t provide a type parameter.
 //:
-//: The following example extends the generic Stack type to add a read-only computed property called topItem, which returns the top item on the stack without popping it from the stack:
+//: Instead, the type parameter is available within the body of the extension:
 extension Stack {
     var topItem: Element? {
         return items.isEmpty ? nil : items[items.count - 1]
@@ -242,20 +193,12 @@ extension Stack {
 //:
 //: -------------------
 //:
-//: The topItem property returns an optional value of type Element. If the stack is empty, topItem returns nil; if the stack isn’t empty, topItem returns the final item in the items array.
-//:
-//: Note that this extension doesn’t define a type parameter list. Instead, the Stack type’s existing type parameter name, Element, is used within the extension to indicate the optional type of the topItem computed property.
-//:
-//: The topItem computed property can now be used with any Stack instance to access and query its top item without removing it.
+//: The topItem computed property can be used with any Stack instance to access and query its top item:
 if let topItem = stackOfStrings.topItem {
     print("The top item on the stack is \(topItem).")
 }
 // Prints "The top item on the stack is tres."
 // << 🔵 Run Point
-//:
-//: -------------------
-//:
-//: Extensions of a generic type can also include requirements that instances of the extended type must satisfy in order to gain the new functionality, as discussed in Extensions with a Generic Where Clause below.
 //:
 //: -------------------
 //:
