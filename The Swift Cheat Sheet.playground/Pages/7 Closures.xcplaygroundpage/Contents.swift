@@ -17,38 +17,27 @@
 //: ## Topic 7: Closures
 //:
 //:
-//: Closures are self-contained blocks of functionality that can be passed around and used in your code. Closures in Swift are similar to blocks in C and Objective-C and to lambdas in other programming languages.
+//: Closures are self-contained blocks of code.
 //:
-//: Closures can capture and store references to any constants and variables from the context in which they’re defined. This is known as closing over those constants and variables. Swift handles all of the memory management of capturing for you.
+//: -------------------
 //:
-//: * callout(Note):
-//:     → Don’t worry if you aren’t familiar with the concept of capturing. It’s explained in detail below in Capturing Values.
+//: ## Three Forms
 //:
-//: Global and nested functions, as introduced in Functions, are actually special cases of closures. Closures take one of three forms:
+//: Closures take one of three forms:
 //:
-//: * Global functions are closures that have a name and don’t capture any values.
+//: * **Global functions** are closures that have a name and don’t capture any values.
 //:
-//: * Nested functions are closures that have a name and can capture values from their enclosing function.
+//: * **Nested functions** are closures that have a name and can capture values from their enclosing function.
 //:
-//: * Closure expressions are unnamed closures written in a lightweight syntax that can capture values from their surrounding context.
-//:
-//: Swift’s closure expressions have a clean, clear style, with optimizations that encourage brief, clutter-free syntax in common scenarios. These optimizations include:
-//:
-//: * Inferring parameter and return value types from context
-//:
-//: * Implicit returns from single-expression closures
-//:
-//: * Shorthand argument names
-//:
-//: * Trailing closure syntax
+//: * **Closure expressions** are unnamed closures written in a lightweight syntax that can capture values from their surrounding context.
 //:
 //: -------------------
 //:
 //: ## Closure Expressions
 //:
-//: Nested functions, as introduced in Nested Functions, are a convenient means of naming and defining self-contained blocks of code as part of a larger function. However, it’s sometimes useful to write shorter versions of function-like constructs without a full declaration and name. This is particularly true when you work with functions or methods that take functions as one or more of their arguments.
+//: It’s sometimes useful to write shorter versions of function-like constructs without the full declaration and name.
 //:
-//: Closure expressions are a way to write inline closures in a brief, focused syntax. Closure expressions provide several syntax optimizations for writing closures in a shortened form without loss of clarity or intent. The closure expression examples below illustrate these optimizations by refining a single example of the sorted(by:) method over several iterations, each of which expresses the same functionality in a more succinct way.
+//: This is particularly true when you work with functions that take functions as their arguments.
 //:
 //: -------------------
 //:
