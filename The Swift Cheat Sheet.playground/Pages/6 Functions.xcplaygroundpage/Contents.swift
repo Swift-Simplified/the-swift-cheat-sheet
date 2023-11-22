@@ -170,19 +170,10 @@ printWithoutCounting(string: "hello, world")
 //:
 //: -------------------
 //:
-//: The first function, printAndCount(string:), prints a string, and then returns its character count as an Int. The second function, printWithoutCounting(string:), calls the first function, but ignores its return value. When the second function is called, the message is still printed by the first function, but the returned value isn’t used.
-//:
-//: * callout(Note):
-//:     → Return values can be ignored, but a function that says it will return a value must always do so. A function with a defined return type can’t allow control to fall out of the bottom of the function without returning a value, and attempting to do so will result in a compile-time error.
-//:
-//: -------------------
-//:
 //: ### Functions with Multiple Return Values
 //:
-//: You can use a tuple type as the return type for a function to return multiple values as part of one compound return value.
-//:
-//: The example below defines a function called minMax(array:), which finds the smallest and largest numbers in an array of Int values:
-func minMax(array: [Int]) -> (min: Int, max: Int) {
+//: Use a tuple to return multiple values:
+func minMax(array: [Int]) -> (min: Int, max: Int) { // (min: Int, max: Int) is a tuple
     var currentMin = array[0]
     var currentMax = array[0]
     for value in array[1..<array.count] {
@@ -198,11 +189,7 @@ func minMax(array: [Int]) -> (min: Int, max: Int) {
 //:
 //: -------------------
 //:
-//: The minMax(array:) function returns a tuple containing two Int values. These values are labeled min and max so that they can be accessed by name when querying the function’s return value.
-//:
-//: The body of the minMax(array:) function starts by setting two working variables called currentMin and currentMax to the value of the first integer in the array. The function then iterates over the remaining values in the array and checks each value to see if it’s smaller or larger than the values of currentMin and currentMax respectively. Finally, the overall minimum and maximum values are returned as a tuple of two Int values.
-//:
-//: Because the tuple’s member values are named as part of the function’s return type, they can be accessed with dot syntax to retrieve the minimum and maximum found values:
+//: Use labels to access each value by name:
 let bounds = minMax(array: [8, -6, 2, 109, 3, 71])
 print("min is \(bounds.min) and max is \(bounds.max)")
 // Prints "min is -6 and max is 109"
@@ -210,20 +197,27 @@ print("min is \(bounds.min) and max is \(bounds.max)")
 //:
 //: -------------------
 //:
-//: Note that the tuple’s members don’t need to be named at the point that the tuple is returned from the function, because their names are already specified as part of the function’s return type.
+//: Using labels is optional when creating a tuple:
+func minMaxAgain(array: [Int]) -> (min: Int, max: Int) {
+    var currentMin = array[0]
+    var currentMax = array[0]
+    for value in array[1..<array.count] {
+        if value < currentMin {
+            currentMin = value
+        } else if value > currentMax {
+            currentMax = value
+        }
+    }
+    return (currentMin, currentMax) // without labels
+    //    return (min: currentMin, max: currentMax) // with labels
+}
+// << 🔵 Run Point
 //:
 //: -------------------
 //:
 //: ### Optional Tuple Return Types
 //:
-//: If the tuple type to be returned from a function has the potential to have “no value” for the entire tuple, you can use an optional tuple return type to reflect the fact that the entire tuple can be nil. You write an optional tuple return type by placing a question mark after the tuple type’s closing parenthesis, such as (Int, Int)? or (String, Int, Bool)?.
-//:
-//: * callout(Note):
-//:     → An optional tuple type such as (Int, Int)? is different from a tuple that contains optional types such as (Int?, Int?). With an optional tuple type, the entire tuple is optional, not just each individual value within the tuple.
-//:
-//: The minMax(array:) function above returns a tuple containing two Int values. However, the function doesn’t perform any safety checks on the array it’s passed. If the array argument contains an empty array, the minMax(array:) function, as defined above, will trigger a runtime error when attempting to access array[0].
-//:
-//: To handle an empty array safely, write the minMax(array:) function with an optional tuple return type and return a value of nil when the array is empty:
+//: Tuples can be optional:
 func saferMinMax(array: [Int]) -> (min: Int, max: Int)? {
     if array.isEmpty { return nil }
     var currentMin = array[0]
@@ -241,8 +235,8 @@ func saferMinMax(array: [Int]) -> (min: Int, max: Int)? {
 //:
 //: -------------------
 //:
-//: You can use optional binding to check whether this version of the minMax(array:) function returns an actual tuple value or nil:
-if let bounds = saferMinMax(array: [8, -6, 2, 109, 3, 71]) {
+//: Use optional binding when return types are optional:
+if let bounds = saferMinMax(array: [8, -6, 2, 109, 3, 71]) { // optional binding
     print("min is \(bounds.min) and max is \(bounds.max)")
 }
 // Prints "min is -6 and max is 109"
@@ -252,9 +246,9 @@ if let bounds = saferMinMax(array: [8, -6, 2, 109, 3, 71]) {
 //:
 //: ### Functions With an Implicit Return
 //:
-//: If the entire body of the function is a single expression, the function implicitly returns that expression. For example, both functions below have the same behavior:
+//: Single expressions can implicitly return their value:
 func greeting(for person: String) -> String {
-    "Hello, " + person + "!"
+    "Hello, " + person + "!" // an implicit return
 }
 print(greeting(for: "Dave"))
 // Prints "Hello, Dave!"
@@ -268,34 +262,54 @@ print(anotherGreeting(for: "Dave"))
 //:
 //: -------------------
 //:
-//: The entire definition of the greeting(for:) function is the greeting message that it returns, which means it can use this shorter form. The anotherGreeting(for:) function returns the same greeting message, using the return keyword like a longer function. Any function that you write as just one return line can omit the return.
-//:
-//: As you’ll see in Shorthand Getter Declaration, property getters can also use an implicit return.
-//:
-//: * callout(Note):
-//:     → The code you write as an implicit return value needs to return some value. For example, you can’t use print(13) as an implicit return value. However, you can use a function that never returns like fatalError("Oh no!") as an implicit return value, because Swift knows that the implicit return doesn’t happen.
+//: Property getters can also use an implicit return:
+class SomeClass {
+    var someProperty: String {
+        "Some Value" // an implicit return
+        return "Some Value" // an explicit return
+    }
+}
+// << 🔵 Run Point
 //:
 //: -------------------
 //:
 //: ## Function Argument Labels and Parameter Names
 //:
-//: Each function parameter has both an argument label and a parameter name. The argument label is used when calling the function; each argument is written in the function call with its argument label before it. The parameter name is used in the implementation of the function. By default, parameters use their parameter name as their argument label.
-func someFunction(firstParameterName: Int, secondParameterName: Int) {
+//: Function parameters have both an argument label and a parameter name:
+//:
+func someFunction(firstParameterLabel firstParameterName: Int, secondParameterLabel secondParameterName: Int) {
     // In the function body, firstParameterName and secondParameterName
     // refer to the argument values for the first and second parameters.
+}
+someFunction(firstParameterLabel: 1, secondParameterLabel: 2)
+// << 🔵 Run Point
+//:
+//: -------------------
+//:
+//: By default, parameters use their parameter name as their argument label.
+func someFunction(firstParameterName: Int, secondParameterName: Int) { // labels are the parameter names
 }
 someFunction(firstParameterName: 1, secondParameterName: 2)
 // << 🔵 Run Point
 //:
 //: -------------------
 //:
-//: All parameters must have unique names. Although it’s possible for multiple parameters to have the same argument label, unique argument labels help make your code more readable.
+//: All parameters must have unique names.
+//:
+//: Although it’s possible to use the same argument labels if the types are different:
+func someFunction2(firstParameterName: Int, secondParameterName: Int) {
+}
+func someFunction2(firstParameterName: Int, secondParameterName: Double) { // labels are the same
+}
+someFunction2(firstParameterName: 1, secondParameterName: 2)
+someFunction2(firstParameterName: 1, secondParameterName: 2.0)
+// << 🔵 Run Point
 //:
 //: -------------------
 //:
 //: ### Specifying Argument Labels
 //:
-//: You write an argument label before the parameter name, separated by a space:
+//: Write an argument label before the parameter name:
 func someFunction(argumentLabel parameterName: Int) {
     // In the function body, parameterName refers to the argument value
     // for that parameter.
@@ -304,40 +318,32 @@ func someFunction(argumentLabel parameterName: Int) {
 //:
 //: -------------------
 //:
-//: Here’s a variation of the greet(person:) function that takes a person’s name and hometown and returns a greeting:
+//: Use argument labels to create and call functions in an expressive, sentence-like manner:
 func greet(person: String, from hometown: String) -> String {
     return "Hello \(person)!  Glad you could visit from \(hometown)."
 }
-print(greet(person: "Bill", from: "Cupertino"))
+print(greet(person: "Bill", from: "Cupertino")) // reads like a sentence
 // Prints "Hello Bill!  Glad you could visit from Cupertino."
 // << 🔵 Run Point
 //:
 //: -------------------
 //:
-//: The use of argument labels can allow a function to be called in an expressive, sentence-like manner, while still providing a function body that’s readable and clear in intent.
-//:
-//: -------------------
-//:
 //: ### Omitting Argument Labels
 //:
-//: If you don’t want an argument label for a parameter, write an underscore (_) instead of an explicit argument label for that parameter.
+//: Use an underscore (_) to hide argument labels:
 func someFunction(_ firstParameterName: Int, secondParameterName: Int) {
     // In the function body, firstParameterName and secondParameterName
     // refer to the argument values for the first and second parameters.
 }
-someFunction(1, secondParameterName: 2)
+someFunction(1, secondParameterName: 2) // no first argument label
 // << 🔵 Run Point
-//:
-//: -------------------
-//:
-//: If a parameter has an argument label, the argument must be labeled when you call the function.
 //:
 //: -------------------
 //:
 //: ### Default Parameter Values
 //:
-//: You can define a default value for any parameter in a function by assigning a value to the parameter after that parameter’s type. If a default value is defined, you can omit that parameter when calling the function.
-func someFunction(parameterWithoutDefault: Int, parameterWithDefault: Int = 12) {
+//: Use the assignment operator to set a default value:
+func someFunction(parameterWithoutDefault: Int, parameterWithDefault: Int = 12) { // default value of 12
     // If you omit the second argument when calling this function, then
     // the value of parameterWithDefault is 12 inside the function body.
 }
@@ -347,7 +353,13 @@ someFunction(parameterWithoutDefault: 4) // parameterWithDefault is 12
 //:
 //: -------------------
 //:
-//: Place parameters that don’t have default values at the beginning of a function’s parameter list, before the parameters that have default values. Parameters that don’t have default values are usually more important to the function’s meaning—writing them first makes it easier to recognize that the same function is being called, regardless of whether any default parameters are omitted.
+//: Place parameters that don’t have default values at the beginning of a function’s parameter list:
+func anotherFunction(primaryParameter: Int, secondaryParameter: Int = 12) {
+    
+}
+anotherFunction(primaryParameter: 1, secondaryParameter: 6)
+anotherFunction(primaryParameter: 1)
+// << 🔵 Run Point
 //:
 //: -------------------
 //:
