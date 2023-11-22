@@ -17,32 +17,20 @@
 //: ## Topic 6: Functions
 //:
 //:
-//: Functions are self-contained chunks of code that perform a specific task. You give a function a name that identifies what it does, and this name is used to “call” the function to perform its task when needed.
-//:
-//: Swift’s unified function syntax is flexible enough to express anything from a simple C-style function with no parameter names to a complex Objective-C-style method with names and argument labels for each parameter. Parameters can provide default values to simplify function calls and can be passed as in-out parameters, which modify a passed variable once the function has completed its execution.
-//:
-//: Every function in Swift has a type, consisting of the function’s parameter types and return type. You can use this type like any other type in Swift, which makes it easy to pass functions as parameters to other functions, and to return functions from functions. Functions can also be written within other functions to encapsulate useful functionality within a nested function scope.
+//: Functions are self-contained chunks of code that perform a specific task.
 //:
 //: -------------------
 //:
 //: ## Defining and Calling Functions
 //:
-//: When you define a function, you can optionally define one or more named, typed values that the function takes as input, known as parameters. You can also optionally define a type of value that the function will pass back as output when it’s done, known as its return type.
+//: Every function has a function name.
 //:
-//: Every function has a function name, which describes the task that the function performs. To use a function, you “call” that function with its name and pass it input values (known as arguments) that match the types of the function’s parameters. A function’s arguments must always be provided in the same order as the function’s parameter list.
-//:
-//: The function in the example below is called greet(person:), because that’s what it does—it takes a person’s name as input and returns a greeting for that person. To accomplish this, you define one input parameter—a String value called person—and a return type of String, which will contain a greeting for that person:
+//: They can accept input and may also provide output:
 func greet(person: String) -> String {
     let greeting = "Hello, " + person + "!"
     return greeting
 }
-// << 🔵 Run Point
-//:
-//: -------------------
-//:
-//: All of this information is rolled up into the function’s definition, which is prefixed with the func keyword. You indicate the function’s return type with the return arrow -> (a hyphen followed by a right angle bracket), which is followed by the name of the type to return.
-//:
-//: The definition describes what the function does, what it expects to receive, and what it returns when it’s done. The definition makes it easy for the function to be called unambiguously from elsewhere in your code:
+
 print(greet(person: "Anna"))
 // Prints "Hello, Anna!"
 print(greet(person: "Brian"))
@@ -51,34 +39,33 @@ print(greet(person: "Brian"))
 //:
 //: -------------------
 //:
-//: You call the greet(person:) function by passing it a String value after the person argument label, such as greet(person: "Anna"). Because the function returns a String value, greet(person:) can be wrapped in a call to the print(_:separator:terminator:) function to print that string and see its return value, as shown above.
+//: The `print(_:separator:terminator:)` function doesn’t have a label for its first argument and all other arguments have default values.
+print("Hello")
+// Prints "Hello"
+print("Hello", terminator: "<text-terminated>") // terminator has a default value of ""
+// Prints Hello<text-terminated>
+// << 🔵 Run Point
 //:
-//: * callout(Note):
-//:     → The print(_:separator:terminator:) function doesn’t have a label for its first argument, and its other arguments are optional because they have a default value. These variations on function syntax are discussed below in Function Argument Labels and Parameter Names and Default Parameter Values.
+//: -------------------
 //:
-//: The body of the greet(person:) function starts by defining a new String constant called greeting and setting it to a simple greeting message. This greeting is then passed back out of the function using the return keyword. In the line of code that says return greeting, the function finishes its execution and returns the current value of greeting.
-//:
-//: You can call the greet(person:) function multiple times with different input values. The example above shows what happens if it’s called with an input value of "Anna", and an input value of "Brian". The function returns a tailored greeting in each case.
-//:
-//: To make the body of this function shorter, you can combine the message creation and the return statement into one line:
-func greetAgain(person: String) -> String {
-    return "Hello again, " + person + "!"
-}
-print(greetAgain(person: "Anna"))
-// Prints "Hello again, Anna!"
+//: You can call the greet(person:) function multiple times with different input values.
+print(greet(person: "Jack"))
+print(greet(person: "Mary"))
+print(greet(person: "Julian"))
+print(greet(person: "Joeseph"))
 // << 🔵 Run Point
 //:
 //: -------------------
 //:
 //: ## Function Parameters and Return Values
 //:
-//: Function parameters and return values are extremely flexible in Swift. You can define anything from a simple utility function with a single unnamed parameter to a complex function with expressive parameter names and different parameter options.
+//: Function parameters and return values are extremely flexible in Swift.
 //:
 //: -------------------
 //:
 //: ### Functions Without Parameters
 //:
-//: Functions aren’t required to define input parameters. Here’s a function with no input parameters, which always returns the same String message whenever it’s called:
+//: Functions aren’t required to define input parameters:
 func sayHelloWorld() -> String {
     return "hello, world"
 }
@@ -88,15 +75,23 @@ print(sayHelloWorld())
 //:
 //: -------------------
 //:
-//: The function definition still needs parentheses after the function’s name, even though it doesn’t take any parameters. The function name is also followed by an empty pair of parentheses when the function is called.
+//: Use a pair of parentheses to declare a function.
+//:
+//: Use an empty pair of parentheses to execute a function:
+func doNothing() {}
+doNothing()
+// << 🔵 Run Point
 //:
 //: -------------------
 //:
 //: ### Functions With Multiple Parameters
 //:
-//: Functions can have multiple input parameters, which are written within the function’s parentheses, separated by commas.
-//:
-//: This function takes a person’s name and whether they have already been greeted as input, and returns an appropriate greeting for that person:
+//: Use a comma to declare multiple input parameters:
+func greetAgain(person: String) -> String {
+    let greeting = "Hello again, " + person + "."
+    return greeting
+}
+
 func greet(person: String, alreadyGreeted: Bool) -> String {
     if alreadyGreeted {
         return greetAgain(person: person)
@@ -104,20 +99,32 @@ func greet(person: String, alreadyGreeted: Bool) -> String {
         return greet(person: person)
     }
 }
+
 print(greet(person: "Tim", alreadyGreeted: true))
 // Prints "Hello again, Tim!"
 // << 🔵 Run Point
 //:
 //: -------------------
 //:
-//: You call the greet(person:alreadyGreeted:) function by passing it both a String argument value labeled person and a Bool argument value labeled alreadyGreeted in parentheses, separated by commas. Note that this function is distinct from the greet(person:) function shown in an earlier section. Although both functions have names that begin with greet, the greet(person:alreadyGreeted:) function takes two arguments but the greet(person:) function takes only one.
+//: Overloading a function means using the same function name but different types for input parameters or the return value:
+func greet(number: Int, alreadyGreeted: Bool = false) -> String {
+    if alreadyGreeted {
+        return greetAgain(person: "\(number)")
+    } else {
+        return greet(person: "\(number)")
+    }
+}
+
+print(greet(number: 2))
+// Prints "Hello, 2!"
+// << 🔵 Run Point
 //:
 //: -------------------
 //:
 //: ## Functions Without Return Values
 //:
-//: Functions aren’t required to define a return type. Here’s a version of the greet(person:) function, which prints its own String value rather than returning it:
-func greetAndReturnVoid(person: String) {
+//: Functions aren’t required to return a value:
+func greetAndReturnVoid(person: String) { // Void means no returned value
     print("Hello, \(person)!")
 }
 greetAndReturnVoid(person: "Dave")
@@ -126,12 +133,28 @@ greetAndReturnVoid(person: "Dave")
 //:
 //: -------------------
 //:
-//: Because it doesn’t need to return a value, the function’s definition doesn’t include the return arrow (->) or a return type.
+//: No need to type the return arrow (->) or return type:
+func returnNothing() {}
+returnNothing()
+// << 🔵 Run Point
 //:
-//: * callout(Note):
-//:     → Strictly speaking, this version of the greet(person:) function does still return a value, even though no return value is defined. Functions without a defined return type return a special value of type Void. This is simply an empty tuple, which is written as ().
+//: -------------------
 //:
-//: The return value of a function can be ignored when it’s called:
+//: Strictly speaking, each function always has a return a value.
+//:
+//: Functions without a defined return type return a special value of type Void.
+//:
+//: Void is an empty tuple, written as ():
+func returnVoid() -> Void {}
+returnVoid()
+// << 🔵 Run Point
+
+
+func returnEmptyTuple() -> () {}
+returnEmptyTuple()
+// << 🔵 Run Point
+//:
+//: The return value can be ignored:
 func printAndCount(string: String) -> Int {
     print(string)
     return string.count
