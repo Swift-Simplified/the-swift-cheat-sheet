@@ -2,7 +2,7 @@
 //:
 //: ![Swift Simplified .com](ss-in-content-logo.png) [Swift Simplified .com](https://www.swiftsimplified.com)
 //:
-//: [Swift.org](https://www.swift.org) | [SwiftSimplified.com](https://www.swiftsimplified.com) | [Online Swift Course](https://www.swiftsimplified.com/the-swift-handbook) | [Swift Language Guide](https://www.swiftsimplified.com/the-swift-language-guide)
+//: [Swift.org](https://www.swift.org) | [SwiftSimplified.com](https://www.swiftsimplified.com) | [Online Course](https://www.swiftsimplified.com/the-swift-handbook) | [Swift Language Guide](https://www.swiftsimplified.com/the-swift-language-guide)
 //:
 //: -------------------
 //: ## The  Swift Cheat Sheet ⚡️
@@ -25,7 +25,7 @@
 //:
 //: Every function has a function name.
 //:
-//: They can accept input and may also provide output:
+//: They can accept input and may also return output:
 func greet(person: String) -> String {
     let greeting = "Hello, " + person + "!"
     return greeting
@@ -35,15 +35,6 @@ print(greet(person: "Anna"))
 // Prints "Hello, Anna!"
 print(greet(person: "Brian"))
 // Prints "Hello, Brian!"
-// << 🔵 Run Point
-//:
-//: -------------------
-//:
-//: The `print(_:separator:terminator:)` function doesn’t have a label for its first argument and all other arguments have default values.
-print("Hello")
-// Prints "Hello"
-print("Hello", terminator: "<text-terminated>") // terminator has a default value of ""
-// Prints Hello<text-terminated>
 // << 🔵 Run Point
 //:
 //: -------------------
@@ -106,7 +97,7 @@ print(greet(person: "Tim", alreadyGreeted: true))
 //:
 //: -------------------
 //:
-//: Overloading a function means using the same function name but different types for input parameters or the return value:
+//: Overloading a function means using the same function name but different types for input parameters or return value:
 func greet(number: Int, alreadyGreeted: Bool = false) -> String {
     if alreadyGreeted {
         return greetAgain(person: "\(number)")
@@ -124,7 +115,7 @@ print(greet(number: 2))
 //: ## Functions Without Return Values
 //:
 //: Functions aren’t required to return a value:
-func greetAndReturnVoid(person: String) { // Void means no returned value
+func greetAndReturnVoid(person: String) {
     print("Hello, \(person)!")
 }
 greetAndReturnVoid(person: "Dave")
@@ -150,9 +141,11 @@ returnVoid()
 // << 🔵 Run Point
 
 
-func returnEmptyTuple() -> () {}
+func returnEmptyTuple() -> () {} // both function types are the same
 returnEmptyTuple()
 // << 🔵 Run Point
+//:
+//: -------------------
 //:
 //: The return value can be ignored:
 func printAndCount(string: String) -> Int {
@@ -215,6 +208,13 @@ func minMaxAgain(array: [Int]) -> (min: Int, max: Int) {
 //:
 //: -------------------
 //:
+//: You can access each value by index:
+print("min is \(bounds.0) and max is \(bounds.1)") // don't need to use the labels
+// Prints "min is -6 and max is 109"
+// << 🔵 Run Point
+//:
+//: -------------------
+//:
 //: ### Optional Tuple Return Types
 //:
 //: Tuples can be optional:
@@ -248,13 +248,13 @@ if let bounds = saferMinMax(array: [8, -6, 2, 109, 3, 71]) { // optional binding
 //:
 //: Single expressions can implicitly return their value:
 func greeting(for person: String) -> String {
-    "Hello, " + person + "!" // an implicit return
+    "Hello, " + person + "!" // no return keyword
 }
 print(greeting(for: "Dave"))
 // Prints "Hello, Dave!"
 
 func anotherGreeting(for person: String) -> String {
-    return "Hello, " + person + "!"
+    return "Hello, " + person + "!" // return keyword
 }
 print(anotherGreeting(for: "Dave"))
 // Prints "Hello, Dave!"
@@ -266,7 +266,7 @@ print(anotherGreeting(for: "Dave"))
 class SomeClass {
     var someProperty: String {
         "Some Value" // an implicit return
-        return "Some Value" // an explicit return
+//        return "Some Value" // an explicit return
     }
 }
 // << 🔵 Run Point
@@ -278,15 +278,14 @@ class SomeClass {
 //: Function parameters have both an argument label and a parameter name:
 //:
 func someFunction(firstParameterLabel firstParameterName: Int, secondParameterLabel secondParameterName: Int) {
-    // In the function body, firstParameterName and secondParameterName
-    // refer to the argument values for the first and second parameters.
+    // In the function body, firstParameterName and secondParameterName are the values
 }
 someFunction(firstParameterLabel: 1, secondParameterLabel: 2)
 // << 🔵 Run Point
 //:
 //: -------------------
 //:
-//: By default, parameters use their parameter name as their argument label.
+//: By default, parameters use their parameter name as their argument label:
 func someFunction(firstParameterName: Int, secondParameterName: Int) { // labels are the parameter names
 }
 someFunction(firstParameterName: 1, secondParameterName: 2)
@@ -299,20 +298,19 @@ someFunction(firstParameterName: 1, secondParameterName: 2)
 //: Although it’s possible to use the same argument labels if the types are different:
 func someFunction2(firstParameterName: Int, secondParameterName: Int) {
 }
-func someFunction2(firstParameterName: Int, secondParameterName: Double) { // labels are the same
+func someFunction2(firstParameterName: Int, secondParameterName: Double) { // types are different
 }
 someFunction2(firstParameterName: 1, secondParameterName: 2)
-someFunction2(firstParameterName: 1, secondParameterName: 2.0)
+someFunction2(firstParameterName: 1, secondParameterName: 2.0) // using a Double
 // << 🔵 Run Point
 //:
 //: -------------------
 //:
 //: ### Specifying Argument Labels
 //:
-//: Write an argument label before the parameter name:
+//: Argument labels are written before the parameter name:
 func someFunction(argumentLabel parameterName: Int) {
-    // In the function body, parameterName refers to the argument value
-    // for that parameter.
+  
 }
 // << 🔵 Run Point
 //:
@@ -367,7 +365,7 @@ anotherFunction(primaryParameter: 1)
 //:
 //: A variadic parameter accepts a convenient list of zero or more values.
 //:
-//: Thes values are made available as an array within the function:
+//: These values are made available as an array within the function:
 func arithmeticMean(_ numbers: Double...) -> Double {
     var total: Double = 0
     for number in numbers { // [Double]
@@ -386,8 +384,8 @@ arithmeticMean(3, 8.25, 18.75)
 //: A function can have multiple variadic parameters.
 //:
 //: The first parameter that comes after a variadic parameter must have an argument label:
-func variadicParameters(_ numbers: Int..., booleans: Bool...) {}
-variadicParameters(1,2,3,4,5, booleans: true, false, true)
+func variadicParameters(_ numbers: Int..., mandatoryArgumentLabel: Bool...) {}
+variadicParameters(1,2,3,4,5, mandatoryArgumentLabel: true, false, true)
 // << 🔵 Run Point
 //:
 //: -------------------
@@ -396,7 +394,7 @@ variadicParameters(1,2,3,4,5, booleans: true, false, true)
 //:
 //: Function parameters are constants by default.
 //:
-//: An in-out parameter is used on value types modifying the original value:
+//: An in-out parameter is used on value types to modify the original value:
 func swapTwoInts(_ a: inout Int, _ b: inout Int) {
     let temporaryA = a
     a = b
@@ -407,7 +405,6 @@ var anotherInt = 107
 swapTwoInts(&someInt, &anotherInt)
 print("someInt is now \(someInt), and anotherInt is now \(anotherInt)")
 // Prints "someInt is now 107, and anotherInt is now 3"
-// << 🔵 Run Point
 // << 🔵 Run Point
 //:
 //: -------------------
@@ -459,23 +456,25 @@ func printHelloWorld() {
 //:
 //: ### Using Function Types
 //:
-//: In Swift functions are "first class citizens", which means they can be treated like variables.
-var mathFunction: (Int, Int) -> Int = addTwoInts // store a function with a matching type
-mathFunction(2, 3) // execute the function
+//: In Swift functions are "first class citizens", which means they can be treated like variables:
+let mathFunction: (Int, Int) -> Int = addTwoInts // store a function in a variable
+mathFunction(2, 3) // execute the function stored
 // << 🔵 Run Point
 //:
 //: -------------------
 //:
-//: Use an empty pair of parentheses to execute a function stored in a variable:
+//: Use an empty pair of parentheses to execute a function address stored inside a variable:
 print("Result: \(mathFunction(2, 3))")
 // Prints "Result: 5"
 // << 🔵 Run Point
 //:
 //: -------------------
 //:
-//: A different function with a matching type can be assigned to the same variable:
-mathFunction = multiplyTwoInts // a different function
-print("Result: \(mathFunction(2, 3))")
+//: Any function can be stored providing the function type matches the type annotation:
+var mathFunction2: (Int, Int) -> Int = addTwoInts
+mathFunction2 = multiplyTwoInts // same function type
+let result = mathFunction2(2, 3)
+print("Result: \(result)")
 // Prints "Result: 6"
 // << 🔵 Run Point
 //:
@@ -496,6 +495,8 @@ func printMathResult(_ mathFunction: (Int, Int) -> Int, _ a: Int, _ b: Int) {
 }
 printMathResult(addTwoInts, 3, 5) // addTwoInts is a function
 // Prints "Result: 8"
+printMathResult(multiplyTwoInts, 3, 5) // multiplyTwoInts is a function
+// Prints "Result: 15"
 // << 🔵 Run Point
 //:
 //: -------------------
@@ -511,7 +512,7 @@ func stepBackward(_ input: Int) -> Int {
 }
 
 func chooseStepFunction(backward: Bool) -> (Int) -> Int {
-    return backward ? stepBackward : stepForward
+    return backward ? stepBackward : stepForward // returning a function
 }
 
 var currentValue = 3
