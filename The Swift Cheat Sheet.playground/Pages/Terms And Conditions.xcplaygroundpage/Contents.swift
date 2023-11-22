@@ -48,7 +48,7 @@ Copyright (C) 2023 Swift Simplified. All Rights Reserved.
 //:
 //: -------------------
 //:
-//: 👉 [Previous Page](@previous)
+//: [Previous Page](@previous)
 //:
 //: -------------------
 //:
