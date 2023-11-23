@@ -10,7 +10,7 @@
 //:
 //: The text has been condensed to focus on code examples.
 //:
-//: v1 | Swift v5.7+ | Xcode 14+ | [The Original Guide](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/thebasics)
+//: v1 | Swift v5.9+ | Xcode 14+ | [The Original Guide](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/thebasics)
 //:
 //: -------------------
 /*:
