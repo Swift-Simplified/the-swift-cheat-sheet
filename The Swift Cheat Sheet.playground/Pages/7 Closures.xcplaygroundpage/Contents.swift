@@ -37,27 +37,21 @@
 //:
 //: It’s sometimes useful to write shorter versions of function-like constructs without the full declaration and name.
 //:
-//: This is particularly true when you work with functions that take functions as their arguments.
+//: This is called a closure expression.
 //:
 //: -------------------
 //:
 //: ### The Sorted Method
 //:
-//: Swift’s standard library provides a method called sorted(by:), which sorts an array of values of a known type, based on the output of a sorting closure that you provide. Once it completes the sorting process, the sorted(by:) method returns a new array of the same type and size as the old one, with its elements in the correct sorted order. The original array isn’t modified by the sorted(by:) method.
-//:
-//: The closure expression examples below use the sorted(by:) method to sort an array of String values in reverse alphabetical order. Here’s the initial array to be sorted:
+//: Here’s an array to be sorted:
 let names = ["Chris", "Alex", "Ewa", "Barry", "Daniella"]
 // << 🔵 Run Point
 //:
 //: -------------------
 //:
-//: The sorted(by:) method accepts a closure that takes two arguments of the same type as the array’s contents, and returns a Bool value to say whether the first value should appear before or after the second value once the values are sorted. The sorting closure needs to return true if the first value should appear before the second value, and false otherwise.
-//:
-//: This example is sorting an array of String values, and so the sorting closure needs to be a function of type (String, String) -> Bool.
-//:
-//: One way to provide the sorting closure is to write a normal function of the correct type, and to pass it in as an argument to the sorted(by:) method:
+//: We can create a function to sort this array in reverse order:
 func backward(_ s1: String, _ s2: String) -> Bool {
-    return s1 > s2
+    return s1 > s2 // reverse order
 }
 var reversedNames = names.sorted(by: backward)
 // reversedNames is equal to ["Ewa", "Daniella", "Chris", "Barry", "Alex"]
@@ -65,23 +59,22 @@ var reversedNames = names.sorted(by: backward)
 //:
 //: -------------------
 //:
-//: If the first string (s1) is greater than the second string (s2), the backward(_:_:) function will return true, indicating that s1 should appear before s2 in the sorted array. For characters in strings, “greater than” means “appears later in the alphabet than”. This means that the letter "B" is “greater than” the letter "A", and the string "Tom" is greater than the string "Tim". This gives a reverse alphabetical sort, with "Barry" being placed before "Alex", and so on.
-//:
-//: However, this is a rather long-winded way to write what is essentially a single-expression function (a > b). In this example, it would be preferable to write the sorting closure inline, using closure expression syntax.
+//: It's preferable to write single-expression functions in a smaller closure:
+reversedNames = names.sorted(by: { (s1: String, s2: String) -> Bool in
+    return s1 > s2 // reverse order
+})
+// << 🔵 Run Point
 //:
 //: -------------------
 //:
 //: ### Closure Expression Syntax
 //:
-//: Closure expression syntax has the following general form:
-/*:
+//: Use the following format to create a closure:
+/*
     { (parameters) -> returnType in
         statements
     }
 */
-//: The parameters in closure expression syntax can be in-out parameters, but they can’t have a default value. Variadic parameters can be used if you name the variadic parameter. Tuples can also be used as parameter types and return types.
-//:
-//: The example below shows a closure expression version of the backward(_:_:) function from above:
 reversedNames = names.sorted(by: { (s1: String, s2: String) -> Bool in
     return s1 > s2
 })
@@ -89,17 +82,19 @@ reversedNames = names.sorted(by: { (s1: String, s2: String) -> Bool in
 //:
 //: -------------------
 //:
-//: Note that the declaration of parameters and return type for this inline closure is identical to the declaration from the backward(_:_:) function. In both cases, it’s written as (s1: String, s2: String) -> Bool. However, for the inline closure expression, the parameters and return type are written inside the curly braces, not outside of them.
-//:
-//: The start of the closure’s body is introduced by the in keyword. This keyword indicates that the definition of the closure’s parameters and return type has finished, and the body of the closure is about to begin.
-//:
-//: Because the body of the closure is so short, it can even be written on a single line:
+//: The body of the closure is so short, it can be written on a one line:
 reversedNames = names.sorted(by: { (s1: String, s2: String) -> Bool in return s1 > s2 } )
 // << 🔵 Run Point
 //:
 //: -------------------
 //:
-//: This illustrates that the overall call to the sorted(by:) method has remained the same. A pair of parentheses still wrap the entire argument for the method. However, that argument is now an inline closure.
+//: ✅ In-out parameters are supported.
+//:
+//: ✅ Paramters can’t have default values.
+//:
+//: ✅ Variadic parameters are supported with named variables.
+//:
+//: ✅ Tuples are supported.
 //:
 //: -------------------
 //:
@@ -184,7 +179,7 @@ reversedNames = names.sorted() { $0 > $1 }
 //: -------------------
 //:
 //: If a closure expression is provided as the function’s or method’s only argument and you provide that expression as a trailing closure, you don’t need to write a pair of parentheses () after the function or method’s name when you call the function:
-reversedNames = names.sorted { $0 > $1 }
+reversedNames = names.sorted { $0 > $1 } // this is the preferred Swift style
 // << 🔵 Run Point
 //:
 //: -------------------
