@@ -100,41 +100,36 @@ reversedNames = names.sorted(by: { (s1: String, s2: String) -> Bool in return s1
 //:
 //: ### Inferring Type From Context
 //:
-//: Because the sorting closure is passed as an argument to a method, Swift can infer the types of its parameters and the type of the value it returns. The sorted(by:) method is being called on an array of strings, so its argument must be a function of type (String, String) -> Bool. This means that the (String, String) and Bool types don’t need to be written as part of the closure expression’s definition. Because all of the types can be inferred, the return arrow (->) and the parentheses around the names of the parameters can also be omitted:
+//: Because all types can be inferred, you can omit:
+//: * the return arrow (->).
+//: * the parentheses around the names of the parameters.
+//: * the type annotation.
 reversedNames = names.sorted(by: { s1, s2 in return s1 > s2 } )
 // << 🔵 Run Point
 //:
 //: -------------------
 //:
-//: It’s always possible to infer the parameter types and return type when passing a closure to a function or method as an inline closure expression. As a result, you never need to write an inline closure in its fullest form when the closure is used as a function or method argument.
-//:
-//: Nonetheless, you can still make the types explicit if you wish, and doing so is encouraged if it avoids ambiguity for readers of your code. In the case of the sorted(by:) method, the purpose of the closure is clear from the fact that sorting is taking place, and it’s safe for a reader to assume that the closure is likely to be working with String values, because it’s assisting with the sorting of an array of strings.
+//: Inferring types is always possible when passing a closure into a function as the expected function type is already declared.
 //:
 //: -------------------
 //:
 //: ### Implicit Returns from Single-Expression Closures
 //:
-//: Single-expression closures can implicitly return the result of their single expression by omitting the return keyword from their declaration, as in this version of the previous example:
-reversedNames = names.sorted(by: { s1, s2 in s1 > s2 } )
+//: Single-expression Closures can implicitly return the result:
+reversedNames = names.sorted(by: { s1, s2 in s1 > s2 } ) // no return keyword
 // << 🔵 Run Point
-//:
-//: -------------------
-//:
-//: Here, the function type of the sorted(by:) method’s argument makes it clear that a Bool value must be returned by the closure. Because the closure’s body contains a single expression (s1 > s2) that returns a Bool value, there’s no ambiguity, and the return keyword can be omitted.
 //:
 //: -------------------
 //:
 //: ### Shorthand Argument Names
 //:
-//: Swift automatically provides shorthand argument names to inline closures, which can be used to refer to the values of the closure’s arguments by the names $0, $1, $2, and so on.
+//: Shorthand argument names begin with a dollar sign ($) followed by the parameter index:
 //:
-//: If you use these shorthand argument names within your closure expression, you can omit the closure’s argument list from its definition. The type of the shorthand argument names is inferred from the expected function type, and the highest numbered shorthand argument you use determines the number of arguments that the closure takes. The in keyword can also be omitted, because the closure expression is made up entirely of its body:
+//: When used the argument list must be removed.
+// ⛔️ Compilation error: uncomment to view
+//reversedNames = names.sorted(by: { s1, s2 in $0 > $1 } )
 reversedNames = names.sorted(by: { $0 > $1 } )
 // << 🔵 Run Point
-//:
-//: -------------------
-//:
-//: Here, $0 and $1 refer to the closure’s first and second String arguments. Because $1 is the shorthand argument with highest number, the closure is understood to take two arguments. Because the sorted(by:) function here expects a closure whose arguments are both strings, the shorthand arguments $0 and $1 are both of type String.
 //:
 //: -------------------
 //:
