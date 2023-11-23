@@ -8,7 +8,7 @@
 //: ## The  Swift Cheat Sheet ⚡️
 //: This is the [official Apple Swift Language Guide](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/thebasics) converted into Xcode playground pages.
 //:
-//: The text has been condensed to focus on code examples.
+//: All text has been condensed and simplified providing more concise information focussing on code examples for faster learning. 🚀
 //:
 //: v1 | Swift v5.9+ | Xcode 14+ | [The Original Guide](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/thebasics)
 //:

@@ -8,7 +8,7 @@
 //: ## The  Swift Cheat Sheet ⚡️
 //: This is the [official Apple Swift Language Guide](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/thebasics) converted into Xcode playground pages.
 //:
-//: The text has been condensed to focus on code examples.
+//: All text has been condensed and simplified providing more concise information focussing on code examples for faster learning. 🚀
 //:
 //: v1 | Swift v5.9+ | Xcode 14+ | [The Original Guide](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/thebasics)
 //:
@@ -18,39 +18,24 @@
 //:
 //: Welcome to [Swift Simplified .com](https://www.swiftfimplified.com).
 //:
-//: We converted the official Apple Swift Language Guide into Xcode playgrounds transforming each published topic into editable and executable code examples.
-/*
- How to execute each code example:
- 
- To execute each code example,
- hover over the line number
- next to the << 🔵 Run Point
- and press the run button.
- */
-let maximumNumberOfLoginAttempts = 10
-var currentLoginAttempt = 0
-func login() {
-    guard currentLoginAttempt < maximumNumberOfLoginAttempts else {
-        return
-    }
-    currentLoginAttempt += 1
-    print("logging in..")
-}
-login()
-// << 🔵 Run Point
+//: We converted the official [Apple Swift Language Guide](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/thebasics) into Xcode playgrounds transforming each topic into editable and executable code examples.
+//:
+//: Finally, we reduced each topic down to its core components and created this condensed cheat sheet. 
+//:
+//: This document contains all offical topics but with half the reading time.
 //:
 //: -------------------
-//: - hover over the line number and press the run button
+//: ## 28 Topics of Apples Language Guide
+//:
+//: This cheat sheet is a condensed version of [Apples Language Guide](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/thebasics).
+//:
+//: All 28 topics from the guide have been condensed reducing the large complex discussions down to smaller concise code examples.
+//:
+//: Don't worry if it feels a little complicated because we simplified it in our online course, [The Swift Handbook](https://www.swiftsimplified.com/the-swift-handbook).
 //:
 //: -------------------
-//: ## 28 Topics
-//:
-//: There are 28 topics to read and they guide you through each main language feature *(including advanced topics)* that you may need when working in industry.
-//:
-//: Don't worry if it feels a little too complicated, because we simplified it in our online course, [The Swift Handbook](https://www.swiftsimplified.com/the-swift-handbook).
-//:
-//: -------------------
-//: ## Language Guide Contents
+//: ## Online Language Guide Contents
+//: The contents list of the original Apple Swift Language Guide found on the [Swift.org](https://www.swift.org) website.
 //:
 //: * *Topic 1:*   [The Basics](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/thebasics)
 //: * *Topic 2:*   [Basic Operators](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/basicoperators)
@@ -82,9 +67,26 @@ login()
 //: * *Topic 28:*  [Advanced Operators](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/advancedoperators)
 //:
 //: -------------------
-//: ## Want An Online Course Teaching Swift?
 //:
-//: [The  Swift Handbook](https://www.swiftsimplified.com/the-swift-handbook) teaches the official topics required to become a Swift engineer taken from official Apple documentation and taught by one of the worlds first iOS developers.
+//: ## Executable Code Examples
+//:
+//: To execute each code example, hover over the line number next to the 🔵 run point and press the run button.
+let maximumNumberOfLoginAttempts = 10
+var currentLoginAttempt = 0
+func login() {
+    guard currentLoginAttempt < maximumNumberOfLoginAttempts else {
+        return
+    }
+    currentLoginAttempt += 1
+    print("logging in..")
+}
+login()
+// << 🔵 Run Point - hover over the line number and press the run button
+//:
+//: -------------------
+//: ## Our Online Course
+//:
+//: [The Swift Handbook](https://www.swiftsimplified.com/the-swift-handbook) teaches the official topics required to become a Swift engineer taken from official Apple documentation and taught by one of the worlds first iOS developers.
 //:
 //: Find out more by clicking [here](https://www.swiftsimplified.com/the-swift-handbook)
 //:
