@@ -341,22 +341,49 @@ alsoSameClosure()   // 15
 //:
 //: ## Escaping Closures
 //:
-//: A closure is said to escape a function when the closure is passed as an argument to the function, but is called after the function returns. When you declare a function that takes a closure as one of its parameters, you can write @escaping before the parameter’s type to indicate that the closure is allowed to escape.
+//: A closure can "escape a function" when the closure is stored and called at a later date.
 //:
-//: One way that a closure can escape is by being stored in a variable that’s defined outside the function. As an example, many functions that start an asynchronous operation take a closure argument as a completion handler. The function returns after it starts the operation, but the closure isn’t called until the operation is completed—the closure needs to escape, to be called later. For example:
-var completionHandlers: [() -> Void] = []
-func someFunctionWithEscapingClosure(completionHandler: @escaping () -> Void) {
-    completionHandlers.append(completionHandler)
+//: Use @escaping before the function type to indicate that a closure can escape:
+var variableToStoreClosure: () -> Void = {}
+func someFunction(escapingClosure: @escaping () -> Void) {
+    variableToStoreClosure = escapingClosure // store outside of the function
 }
+someFunction() {
+    print("My closure escaped!")
+}
+variableToStoreClosure()
 // << 🔵 Run Point
 //:
 //: -------------------
 //:
-//: The someFunctionWithEscapingClosure(_:) function takes a closure as its argument and adds it to an array that’s declared outside the function. If you didn’t mark the parameter of this function with @escaping, you would get a compile-time error.
+//: When using asynchronous code, functions often accept completion handlers to call once the task is completed.
 //:
-//: An escaping closure that refers to self needs special consideration if self refers to an instance of a class. Capturing self in an escaping closure makes it easy to accidentally create a strong reference cycle. For information about reference cycles, see Automatic Reference Counting.
+//: In the following example our closure isn’t called until the operation is completed. This is why the closure needs to escape - to be called later:
+var completionHandlers: [() -> Void] = []
+func someFunctionWithEscapingClosure(completionHandler: @escaping () -> Void) {
+    completionHandlers.append(completionHandler)
+}
+func taskCompleted() {
+    for completionHandler in completionHandlers {
+        completionHandler()
+    }
+}
+someFunctionWithEscapingClosure() { // store this closure to completionHandlers
+    print("My closure escaped!")
+}
+taskCompleted() // execute stored closure
+completionHandlers.removeAll() // free the closure from memory
+// << 🔵 Run Point
 //:
-//: Normally, a closure captures variables implicitly by using them in the body of the closure, but in this case you need to be explicit. If you want to capture self, write self explicitly when you use it, or include self in the closure’s capture list. Writing self explicitly lets you express your intent, and reminds you to confirm that there isn’t a reference cycle. For example, in the code below, the closure passed to someFunctionWithEscapingClosure(_:) refers to self explicitly. In contrast, the closure passed to someFunctionWithNonescapingClosure(_:) is a nonescaping closure, which means it can refer to self implicitly.
+//: -------------------
+//:
+//: An escaping closure that refers to self needs special consideration.
+//:
+//: -------------------
+//:
+//: For classes, escaping closures must explicitly reference self:
+//:
+//: Non-escaping closures may implicitly reference self:
 func someFunctionWithNonescapingClosure(closure: () -> Void) {
     closure()
 }
@@ -364,8 +391,8 @@ func someFunctionWithNonescapingClosure(closure: () -> Void) {
 class SomeClass {
     var x = 10
     func doSomething() {
-        someFunctionWithEscapingClosure { self.x = 100 }
-        someFunctionWithNonescapingClosure { x = 200 }
+        someFunctionWithEscapingClosure { self.x = 100 } // need to write self for escaping closures
+        someFunctionWithNonescapingClosure { x = 200 } // don't for non-escaping closures
     }
 }
 
@@ -381,21 +408,25 @@ print(instance.x)
 //:
 //: -------------------
 //:
-//: Here’s a version of doSomething() that captures self by including it in the closure’s capture list, and then refers to self implicitly:
-
+//: Classes require an explicit reference to self when captured in an escaping closure.
+//:
+//: Add self to a capture list to implicitly refer to self:
 class SomeOtherClass {
     var x = 10
     func doSomething() {
-        someFunctionWithEscapingClosure { [self] in x = 100 }
-        someFunctionWithNonescapingClosure { x = 200 }
+        someFunctionWithEscapingClosure { self.x = 100 }        // self.x
+        someFunctionWithEscapingClosure { [self] in x = 100 }   // x
     }
 }
 // << 🔵 Run Point
 //:
 //: -------------------
 //:
-//: If self is an instance of a structure or an enumeration, you can always refer to self implicitly. However, an escaping closure can’t capture a mutable reference to self when self is an instance of a structure or an enumeration. Structures and enumerations don’t allow shared mutability, as discussed in Structures and Enumerations Are Value Types.
-
+//: For structures or enumerations (value types), you can always refer to self implicitly. This is because the value is copied creating a new address in memory.
+//:
+//: -------------------
+//:
+//: Escaping closures can’t capture mutable references to self for structures or enumerations (value types):
 struct SomeStruct {
     var x = 10
     mutating func doSomething() {
@@ -413,7 +444,33 @@ struct SomeStruct {
 //:
 //: -------------------
 //:
-//: The call to the someFunctionWithEscapingClosure function in the example above is an error because it’s inside a mutating method, so self is mutable. That violates the rule that escaping closures can’t capture a mutable reference to self for structures.
+//: A strong reference cycle is when an object points to another object which also points to the first object. 🔄
+//:
+//: For classes (reference types), capturing self in escaping closures creates an easy opportunity to accidentally create a strong reference cycle:
+class ClassWithReferenceCycle {
+    var runningTotal = 0
+    var incrementor: () -> Int = { 0 }
+    func setIncrement(by valueToIncrement: Int) {
+        func incrementor() -> Int {
+            self.runningTotal += valueToIncrement // capture self
+            return runningTotal
+        }
+        self.incrementor = incrementor // strong reference cycle created!
+    }
+    
+    func increment() {
+        incrementor()
+    }
+}
+let classWithReferenceCycle = ClassWithReferenceCycle()
+classWithReferenceCycle.setIncrement(by: 5) // strong reference cycle created
+classWithReferenceCycle.increment() // 5
+classWithReferenceCycle.increment() // 10
+classWithReferenceCycle.increment() // 15
+print("runningTotal: \(classWithReferenceCycle.runningTotal)")
+
+// classWithReferenceCycle will now never be freed from memory (RAM) 😬
+// << 🔵 Run Point
 //:
 //: -------------------
 //:
